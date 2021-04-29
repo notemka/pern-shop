@@ -5,8 +5,9 @@ import Form from '../atoms/Form';
 import Input from '../atoms/Input';
 import Button from '../atoms/buttons/Button';
 import { LOGIN_ROUTE, SHOP_ROUTE } from '../../routes';
-import { login, registration } from '../../http/userAPI';
 import { Context } from '../../App';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER, REGISTER_USER } from '../../graphql/mutations/user';
 
 const FieldActions = styled.div`
   display: flex;
@@ -23,22 +24,29 @@ const AuthForm = () => {
   const pageName = isLoginPage ? 'Login' : 'Registration';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const fetchQuery = isLoginPage ? LOGIN_USER : REGISTER_USER;
+
+  const variables = isLoginPage
+    ? { email, password }
+    : { email, password, role: 'USER' };
+
+  const [getUser, { loading }] = useMutation(fetchQuery, {
+    onCompleted: (data) => {
+      const userData = isLoginPage ? data.loginUser : data.registerUser;
+      setUser(userData);
+      localStorage.setItem('accessToken', userData.accessToken);
+    },
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      let data;
-      if (isLoginPage) {
-        data = await login(email, password);
-      } else {
-        data = await registration(email, password);
+      if (!loading) {
+        getUser({ variables });
+        history.push(SHOP_ROUTE);
       }
-      setUser(data);
-      history.push(SHOP_ROUTE);
     } catch (error) {
-      console.log(error);
-      // alert(error.response.data.message);
+      console.log(error.message);
     }
   };
 
@@ -50,7 +58,6 @@ const AuthForm = () => {
     }
     return setPassword(value);
   };
-
   return (
     <Form
       onSubmit={onSubmit}

@@ -4,22 +4,22 @@ import Form from '../atoms/Form';
 import Input from '../atoms/Input';
 import Button from '../atoms/buttons/Button';
 import Loader from '../atoms/Loader';
+import { useMutation } from '@apollo/client';
+import { CREATE_BRAND } from '../../graphql/mutations/brand';
 
 const AddBrandForm = () => {
   const [brand, setBrand] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [createBrand, { loading }] = useMutation(CREATE_BRAND);
 
   const addNewBrand = async (e) => {
     e.preventDefault();
 
     try {
-      setLoading(true);
-
-      await createBrand({ name: brand }).then((data) => {
-        setLoading(false);
+      await createBrand({ variables: { name: brand } });
+      if (!loading) {
         setBrand('');
-        alert(`Новый бренд ${data.name} добавлен`);
-      });
+        alert(`Новый бренд ${brand} добавлен`);
+      }
     } catch (error) {
       console.error(error.message);
     }

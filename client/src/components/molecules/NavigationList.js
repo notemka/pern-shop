@@ -53,7 +53,7 @@ const NavigationList = () => {
   const exit = () => {
     history.push(LOGIN_ROUTE);
     setUser(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
   };
 
   return (

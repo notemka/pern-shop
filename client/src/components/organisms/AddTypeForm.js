@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
-import { createType } from '../../http/typesAPI';
 import Form from '../atoms/Form';
 import Input from '../atoms/Input';
 import Button from '../atoms/buttons/Button';
 import Loader from '../atoms/Loader';
+import { useMutation } from '@apollo/client';
+import { CREATE_TYPE } from '../../graphql/mutations/type';
 
 const AddTypeForm = () => {
   const [type, setType] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [createType, { loading }] = useMutation(CREATE_TYPE);
 
-  const addNewBrand = async (e) => {
+  const addNewType = async (e) => {
     e.preventDefault();
 
     try {
-      setLoading(true);
-
-      await createType({ name: type }).then((data) => {
-        setLoading(false);
+      await createType({ variables: { name: type } });
+      if (!loading) {
         setType('');
-        alert(`Категория "${data.name}" добавлена`);
-      });
+        alert(`Новый бренд ${type} добавлен`);
+      }
     } catch (error) {
       console.error(error.message);
     }
   };
 
   return (
-    <Form onSubmit={addNewBrand}>
+    <Form onSubmit={addNewType}>
       <Input
         label="Наименование категории"
         value={type}

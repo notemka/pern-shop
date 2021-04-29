@@ -1,45 +1,37 @@
-const ApiError = require('../error/ApiError');
-const { Basket, BasketGood, Good } = require('../models');
+const { Basket, BasketGood } = require('../models');
 
 class BasketController {
-  async addToBasket(req, res, next) {
-    const { id } = req.params;
-    const { user } = req;
-
+  async addToBasket(id, userId) {
     try {
-      const basket = await Basket.findOne({ where: { userId: user.id } });
+      const basket = await Basket.findOne({ where: { userId } });
       const basketGood = await BasketGood.create({
         goodId: id,
         basketId: basket.id,
       });
-      return res.json(basketGood);
+      return basketGood;
     } catch (error) {
-      next(ApiError.badRequest(error.message));
+      throw new Error(error.message);
     }
   }
 
-  async getAll(req, res, next) {
-    const userId = req.user.id;
-
+  async getAll(basketId) {
     try {
-      const { id } = await Basket.findOne({ where: { userId } });
-      const basketGoods = await BasketGood.findAll({ where: { basketId: id } });
+      const basketGoods = await BasketGood.findAll({
+        where: { basketId },
+      });
 
-      return res.json(basketGoods);
+      return basketGoods;
     } catch (error) {
-      next(ApiError.badRequest(error.message));
+      throw new Error(error.message);
     }
   }
 
-  async deleteFromBasket(req, res, next) {
-    const { id } = req.params;
-    const { user } = req;
+  async deleteFromBasket(id, basketId) {
     try {
-      const basket = await Basket.findOne({ where: { userId: user.id } });
-      await BasketGood.destroy({ where: { goodId: id, basketId: basket.id } });
-      res.status(200).json({ message: 'Success' });
+      await BasketGood.destroy({ where: { goodId: id, basketId } });
+      return 'Success';
     } catch (error) {
-      next(ApiError.badRequest(error.message));
+      throw new Error(error.message);
     }
   }
 }

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GOOD_ROUTE } from '../../routes';
 import { Context } from '../../App';
-import { deleteGood } from '../../http/goodAPI';
-import { addGoodToBasket } from '../../http/basketAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -12,6 +10,7 @@ import {
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 import RoundButton from '../atoms/buttons/RoundButton';
+import useGoodActions from '../../hooks/useGoodActions';
 
 const Wrapper = styled.article`
   display: flex;
@@ -68,15 +67,7 @@ const Actions = styled.div`
 const GoodItem = ({ good }) => {
   const { id, name, price, rating, img } = good;
   const { user } = useContext(Context);
-
-  const removeGood = async (id) => {
-    try {
-      await deleteGood(id);
-      alert(`Товар успешно удален!`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const { removeGood, addGoodToBasket } = useGoodActions();
 
   return (
     <li>

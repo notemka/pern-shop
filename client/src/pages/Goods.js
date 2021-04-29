@@ -3,23 +3,20 @@ import MainTemplate from '../components/templates/MainTemplate';
 import GoodList from '../components/molecules/GoodList';
 import InfoText from '../components/atoms/InfoText';
 import SearchField from '../components/molecules/SearchField';
-import { fetchGoods } from '../http/goodAPI';
 import Loader from '../components/atoms/Loader';
 import { Context } from '../App';
+import { useQuery } from '@apollo/client';
+import { GET_ALL_GOODS } from '../graphql/queries/goods';
 
 const Goods = () => {
   const { goods, setGoods } = useContext(Context);
-  const [loading, setLoading] = useState(true);
-  // const [totalCount, setTotalCount] = useState(0);
+  const { data, loading, error } = useQuery(GET_ALL_GOODS);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { rows } = await fetchGoods();
-      setGoods(rows);
-    };
-    fetchData();
-    setLoading(false);
-  }, [setGoods]);
+    if (!loading) {
+      setGoods(data.getAllGoods);
+    }
+  }, [data]);
 
   return (
     <MainTemplate>
@@ -33,7 +30,9 @@ const Goods = () => {
           <GoodList goods={goods} />
         ) : (
           <InfoText>
-            Товары отсутствуют, пожалуйста, обратитесь к администратору
+            {error
+              ? error
+              : 'Товары отсутствуют, пожалуйста, обратитесь к администратору'}
           </InfoText>
         )}
       </div>

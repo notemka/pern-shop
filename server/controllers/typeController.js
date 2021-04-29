@@ -1,25 +1,22 @@
 const { Type } = require('../models');
-const ApiError = require('../error/ApiError');
 
 class TypeController {
-  async create(req, res) {
-    const { name } = req.body;
+  async create(name) {
     const type = await Type.create({ name });
-    return res.json(type);
+    return type;
   }
 
-  async getAll(_req, res) {
+  async getAll() {
     const types = await Type.findAll();
-    return res.json(types);
+    return types;
   }
 
-  async delete(req, res) {
-    const { id } = req.params;
+  async delete(id) {
     try {
       await Type.destroy({ where: { id } });
-      res.status(200).json({ message: 'Success' });
+      return 'Success';
     } catch (error) {
-      next(error);
+      throw new Error(error);
     }
   }
 }

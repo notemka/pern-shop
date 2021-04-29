@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { createGood, updateGood } from '../../../http/goodAPI';
-import { fetchBrands } from '../../../http/brandsAPI';
-import { fetchTypes } from '../../../http/typesAPI';
 import Form from '../../atoms/Form';
 import Input from '../../atoms/Input';
 import Button from '../../atoms/buttons/Button';
 import Loader from '../../atoms/Loader';
 import CategorySelect from '../../molecules/CategorySelect';
 import GoodInfoFields from './GoodInfoFields';
+import { useQuery } from '@apollo/client';
+import { GET_ALL_TYPES } from '../../../graphql/queries/type';
+import { GET_ALL_BRANDS } from '../../../graphql/queries/brand';
 
 const AddGoodForm = ({ data, isEditMode }) => {
   console.log(data);
@@ -21,22 +22,19 @@ const AddGoodForm = ({ data, isEditMode }) => {
     info: data?.info || [],
   };
 
-  const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [goodFields, setGoodFields] = useState(initialFields);
   const { name, brand, type, price, file, info } = goodFields;
   const [brands, setBrands] = useState([]);
   const [types, setTypes] = useState([]);
+  const { data: typesData, loading: typesLoading } = useQuery(GET_ALL_TYPES);
+  const { data: brandsData, loading: brandsLoading } = useQuery(GET_ALL_BRANDS);
 
   useEffect(() => {
-    const loadTypesBrands = async () => {
-      const brandsData = await fetchBrands();
-      const typesData = await fetchTypes();
-      setBrands(brandsData);
-      setTypes(typesData);
-    };
-    loadTypesBrands();
-    setLoading(false);
+    if (!typesLoading && !brandsLoading) {
+      setTypes(typesData.getAllTypes);
+      setBrands(brandsData.getAllBrands);
+    }
   }, []);
 
   const changeFieldValue = (obj) =>
@@ -124,7 +122,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
 
   return (
     <>
-      {loading ? (
+      {typesLoading && brandsLoading ? (
         <Loader />
       ) : (
         <Form onSubmit={onSubmit}>
@@ -170,7 +168,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
             {isSaving ? (
               <Loader size="small" />
             ) : (
-              `${isEditMode ? 'Добавить' : 'Редактировать'} товар`
+              `${isEditMode ? 'Редактировать' : 'Добавить'} товар`
             )}
           </Button>
         </Form>

@@ -1,58 +1,81 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const ApiError = require('../error/ApiError');
 const { User, Basket } = require('../models');
 
-const generateToken = (id, email, role) => {
-  return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
-    expiresIn: '24h',
+const generateToken = (id, expiresIn) => {
+  return jwt.sign({ id }, process.env.SECRET_KEY, {
+    expiresIn,
   });
 };
 
 class UserController {
-  async registation(req, res, next) {
-    const { email, password, role } = req.body;
-
+  async registation(email, password, role) {
     if (!email || !password) {
-      return next(ApiError.badRequest('Некорректный email или пароль'));
+      throw new Error('Некорректный email или пароль');
     }
 
     const candidate = await User.findOne({ where: { email } });
     if (candidate) {
-      return next(ApiError.badRequest('Такой пользователь уже существует'));
+      throw new Error('Такой пользователь уже существует');
     }
 
     const hashPasword = await bcrypt.hash(password, 5);
     const user = await User.create({ email, password: hashPasword, role });
     await Basket.create({ userId: user.id });
-    const token = generateToken(user.id, user.email, user.role);
-    return res.json({ token });
+    const accessToken = generateToken(user.id, '30min');
+    const refreshToken = generateToken(user.id, '60d');
+    const userData = {
+      me: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      accessToken,
+      refreshToken,
+    };
+    return userData;
   }
 
-  async login(req, res, next) {
-    const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+  async login(email, password) {
+    try {
+      const user = await User.findOne({ where: { email } });
 
-    if (!user) {
-      return next(
-        ApiError.badRequest('Пользователь с таким email не существует')
-      );
+      if (!user) {
+        throw new Error('Пользователь с таким email не существует');
+      }
+      const comparePassword = bcrypt.compareSync(password, user.password);
+
+      if (!comparePassword) {
+        throw new Error('Неверный пароль');
+      }
+
+      const accessToken = generateToken(user.id, '30min');
+      const refreshToken = generateToken(user.id, '60d');
+      const userData = {
+        me: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          refreshToken,
+        },
+        accessToken,
+      };
+      return userData;
+    } catch (error) {
+      throw new Error(error);
     }
-    const comparePassword = bcrypt.compareSync(password, user.password);
-
-    if (!comparePassword) {
-      return next(ApiError.badRequest('Неверный пароль'));
-    }
-
-    const token = generateToken(user.id, user.email, user.role);
-    return res.json({ token });
   }
 
-  async check(req, res) {
-    const { user } = req;
-    const token = generateToken(user.id, user.email, user.role);
-
-    res.json({ token });
+  async check(user) {
+    const { id, email, role } = user;
+    const accessToken = generateToken(id, '30min');
+    const refreshToken = generateToken(id, '60d');
+    const userData = {
+      me: { id, email, role },
+      accessToken,
+      refreshToken,
+    };
+    return userData;
   }
 }
 

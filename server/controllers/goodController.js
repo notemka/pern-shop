@@ -1,13 +1,12 @@
 const uuid = require('uuid');
 const path = require('path');
 const { Good, GoodInfo } = require('../models');
-const ApiError = require('../error/ApiError');
 
 class GoodController {
-  async create(req, res, next) {
+  async create(data) {
     try {
-      const { name, price, brandId, typeId, info } = req.body;
-      const { img } = req.files;
+      const { name, price, brandId, typeId, info, files } = data;
+      const { img } = files;
       const fileName = `${uuid.v4()}.jpg`;
       // path.resolve() - адаптирует указанный путь к ОС
       // параметр '..' переход на папку выше
@@ -30,16 +29,14 @@ class GoodController {
           });
         });
       }
-      console.log('Good:', good);
 
-      return res.json(good);
+      return good;
     } catch (error) {
-      next(ApiError.badRequest(error.message));
+      throw new Error(error.message);
     }
   }
 
-  async getAll(req, res) {
-    let { brandId, typeId, limit, page } = req.query;
+  async getAll(brandId, typeId, limit, page) {
     let goods;
     page = page || 1;
     limit = limit || 10;
@@ -57,50 +54,47 @@ class GoodController {
     if (brandId && typeId) {
       goods = await Good.findAndCountAll({
         where: { brandId, typeId },
+        include: [{ model: GoodInfo, as: 'info' }],
         limit,
         offset,
       });
     }
-    return res.json(goods);
+    return goods;
   }
 
-  async getOne(req, res) {
-    const { id } = req.params;
+  async getOne(id) {
     const good = await Good.findOne({
       where: { id },
       include: [{ model: GoodInfo, as: 'info' }],
     });
-    res.json(good);
+    return good;
   }
 
-  async delete(req, res, next) {
-    const { id } = req.params;
-
+  async delete(id) {
     try {
       await Good.destroy({
         where: { id },
         include: [{ model: GoodInfo, as: 'info' }],
       });
-      res.status(200).json({ message: 'Success' });
+      return 'Success';
     } catch (error) {
-      next(error);
+      throw new Error(error);
     }
   }
 
-  async update(req, res, next) {
-    const { id } = req.params;
-    console.log(req.body);
+  async update(data) {
+    const { id } = data;
 
     try {
       await Good.update({
-        ...req.body,
+        ...data,
         returning: true,
         where: { id },
         include: [{ model: GoodInfo, as: 'info' }],
       });
-      res.status(200).json({ message: 'Success' });
+      return 'Success';
     } catch (error) {
-      next(error);
+      throw new Error(error);
     }
   }
 }

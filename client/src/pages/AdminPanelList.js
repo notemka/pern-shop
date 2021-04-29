@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import Loader from '../components/atoms/Loader';
 import MainTemplate from '../components/templates/MainTemplate';
-import { deleteBrand, fetchBrands } from '../http/brandsAPI';
-import { deleteType, fetchTypes } from '../http/typesAPI';
 import breakpoints from '../styles/breakpoints';
+
+import { useQuery } from '@apollo/client';
+import { GET_ALL_BRANDS } from '../graphql/queries/brand';
+import { GET_ALL_TYPES } from '../graphql/queries/type';
+import useTypeBrandActions from '../hooks/useTypeBrandActions';
 
 const List = styled.ul`
   max-width: 900px;
@@ -41,38 +44,15 @@ const AdminPanelList = () => {
   const listItemName = isTypesList ? 'Категория' : 'Бренд';
   const listName = isTypesList ? 'Категории' : 'Бренды';
   const [dataList, setDataList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const fetchQuery = isTypesList ? GET_ALL_TYPES : GET_ALL_BRANDS;
+  const { data, loading } = useQuery(fetchQuery);
+  const { editItem, removeItem } = useTypeBrandActions(listItemName);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      let data = [];
-      if (isTypesList) {
-        data = await fetchTypes();
-      } else {
-        data = await fetchBrands();
-      }
-
-      setDataList(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, [isTypesList]);
-
-  const editItem = async (id) => {};
-
-  const deleteItem = async (id) => {
-    try {
-      if (isTypesList) {
-        await deleteType(id);
-      } else {
-        await deleteBrand(id);
-      }
-      alert(`${listItemName} успешно удален!`);
-    } catch (error) {
-      console.log(error.message);
+    if (!loading) {
+      setDataList(isTypesList ? data.getAllTypes : data.getAllBrands);
     }
-  };
+  }, []);
 
   return (
     <MainTemplate>
@@ -90,11 +70,11 @@ const AdminPanelList = () => {
                   <Actions>
                     <RoundButton
                       title="Редактировать"
-                      onClick={() => editItem(id)}
+                      onClick={() => editItem({ id, name })}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </RoundButton>
-                    <RoundButton title="Удалить" onClick={() => deleteItem(id)}>
+                    <RoundButton title="Удалить" onClick={() => removeItem(id)}>
                       <FontAwesomeIcon icon={faTrash} />
                     </RoundButton>
                   </Actions>

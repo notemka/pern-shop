@@ -68,7 +68,7 @@ const GoodContainer = ({ good }) => {
           <span>{rating} из 5</span>
         </GoodData>
 
-        {info.length > 0 && (
+        {info?.length > 0 && (
           <>
             <SubTitle>Характеристики:</SubTitle>
             <List>

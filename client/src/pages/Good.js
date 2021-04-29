@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import Loader from '../components/atoms/Loader';
 import InfoText from '../components/atoms/InfoText';
 import GoodDetails from '../components/molecules/GoodDetails/';
-import { fetchOneGood } from '../http/goodAPI';
+import { useQuery } from '@apollo/client';
+import { GET_ONE_GOOD } from '../graphql/queries/goods';
 
 const StyledLink = styled(Link)`
   display: inline-block;
@@ -22,16 +23,15 @@ const Wrapper = styled.div`
 const Good = () => {
   const { id } = useParams();
   const [good, setGood] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, error } = useQuery(GET_ONE_GOOD, {
+    variables: { id },
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchOneGood(id);
-      setGood(data);
-    };
-    fetchData();
-    setLoading(false);
-  }, [id]);
+    if (!loading) {
+      setGood(data.getOneGood);
+    }
+  }, [data]);
 
   return (
     <MainTemplate>
@@ -45,7 +45,8 @@ const Good = () => {
         ) : good ? (
           <GoodDetails good={good} />
         ) : (
-          <InfoText>Что-то пошло не так...</InfoText>
+          <InfoText>{error ? error : 'Что-то пошло не так...'}</InfoText>
+          // <InfoText>Что-то пошло не так...</InfoText>
         )}
       </Wrapper>
     </MainTemplate>
