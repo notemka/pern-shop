@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
-import breakpoints from '../../../styles/breakpoints';
 import { useHistory } from 'react-router-dom';
-import { Context } from '../../../App';
-import { deleteGood } from '../../../http/goodAPI';
-import { addGoodToBasket } from '../../../http/basketAPI';
-import { SHOP_ROUTE } from '../../../routes';
-
-import Button from '../../atoms/buttons/Button';
+import { SHOP_ROUTE } from 'routes';
+import { Context } from 'App';
+import styled from 'styled-components';
+import breakpoints from 'styles/breakpoints';
+import Button from 'components/atoms/buttons/Button';
+import { deleteGood } from 'http/goodAPI';
+import { addGoodToBasket } from 'http/basketAPI';
 
 const Actions = styled.div`
   display: grid;
@@ -30,7 +29,7 @@ const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
     try {
       await deleteGood(id);
       push(SHOP_ROUTE);
-      alert(`Товар успешно удален!`);
+      alert('Товар успешно удален!');
     } catch (error) {
       console.log(error.message);
     }
@@ -40,9 +39,7 @@ const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
     <Actions>
       {user?.role === 'ADMIN' && (
         <>
-          <Button onClick={() => setIsEditMode((mode) => !mode)}>
-            {isEditMode ? 'Отменить' : 'Редактировать'}
-          </Button>
+          <Button onClick={() => setIsEditMode((mode) => !mode)}>{isEditMode ? 'Отменить' : 'Редактировать'}</Button>
           <Button onClick={() => removeGood(goodId)}>Удалить</Button>
         </>
       )}

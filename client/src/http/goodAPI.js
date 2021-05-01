@@ -7,7 +7,7 @@ export const fetchGoods = async () => {
 };
 
 export const fetchOneGood = async (id) => {
-  const { data } = await $host.get('api/goods/' + id);
+  const { data } = await $host.get(`api/goods/${id}`);
   return data;
 };
 
@@ -17,11 +17,11 @@ export const createGood = async (good) => {
 };
 
 export const updateGood = async (id) => {
-  const { data } = await $authHost.post('api/goods/' + id);
+  const { data } = await $authHost.post(`api/goods/${id}`);
   return data;
 };
 
 export const deleteGood = async (id) => {
-  const { data } = await $authHost.delete('api/goods/' + id);
+  const { data } = await $authHost.delete(`api/goods/${id}`);
   return data;
 };

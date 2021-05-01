@@ -11,6 +11,6 @@ export const addGoodToBasket = async (id) => {
 };
 
 export const deleteBasketGood = async (id) => {
-  const { data } = await $authHost.delete('api/basket/' + id);
+  const { data } = await $authHost.delete(`api/basket/${id}`);
   return data;
 };

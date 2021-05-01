@@ -19,7 +19,7 @@ const AppContextProvider = ({ children }) => {
       types,
       setTypes,
     }),
-    [user, setUser, goods, setGoods, brands, setBrands, types, setTypes]
+    [user, setUser, goods, setGoods, brands, setBrands, types, setTypes],
   );
 
   return <Context.Provider value={providerValue}>{children}</Context.Provider>;
@@ -27,10 +27,10 @@ const AppContextProvider = ({ children }) => {
 
 export default AppContextProvider;
 // import React from 'react';
-// import AuthProvider from './Auth/AuthProvider';
-// import BrandsProvider from './Brands/BrandsProvider';
-// import GoodsProvider from './Goods/GoodsProvider';
-// import TypesProvider from './Types/TypesProvider';
+// import AuthProvider from 'Auth/AuthProvider';
+// import BrandsProvider from 'Brands/BrandsProvider';
+// import GoodsProvider from 'Goods/GoodsProvider';
+// import TypesProvider from 'Types/TypesProvider';
 
 // const AppContextProvider = ({ children }) => {
 //   return (

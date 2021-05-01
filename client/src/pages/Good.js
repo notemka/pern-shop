@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import MainTemplate from '../components/templates/MainTemplate';
-import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Loader from '../components/atoms/Loader';
-import InfoText from '../components/atoms/InfoText';
-import GoodDetails from '../components/molecules/GoodDetails/';
-import { fetchOneGood } from '../http/goodAPI';
+import { Link, useParams } from 'react-router-dom';
+import MainTemplate from 'components/templates/MainTemplate';
+import Loader from 'components/atoms/Loader';
+import InfoText from 'components/atoms/InfoText';
+import GoodDetails from 'components/molecules/GoodDetails';
+import { fetchOneGood } from 'http/goodAPI';
 
 const StyledLink = styled(Link)`
   display: inline-block;
@@ -31,8 +31,10 @@ const Good = () => {
     };
     fetchData();
     setLoading(false);
-  }, [id]);
+  }, []);
 
+  console.log(loading);
+  console.log(good);
   return (
     <MainTemplate>
       <Wrapper data-testid="test-recipe-page">
@@ -40,13 +42,7 @@ const Good = () => {
           <StyledLink to="/">Назад</StyledLink>
         </div>
 
-        {loading ? (
-          <Loader />
-        ) : good ? (
-          <GoodDetails good={good} />
-        ) : (
-          <InfoText>Что-то пошло не так...</InfoText>
-        )}
+        {loading ? <Loader /> : good ? <GoodDetails good={good} /> : <InfoText>Что-то пошло не так...</InfoText>}
       </Wrapper>
     </MainTemplate>
   );

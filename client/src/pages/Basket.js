@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Loader from '../components/atoms/Loader';
-import BasketList from '../components/molecules/BasketList';
-import MainTemplate from '../components/templates/MainTemplate';
-import { fetchBasketGoods } from '../http/basketAPI';
-import { fetchOneGood } from '../http/goodAPI';
+import Loader from 'components/atoms/Loader';
+import BasketList from 'components/molecules/BasketList';
+import MainTemplate from 'components/templates/MainTemplate';
+import { fetchBasketGoods } from 'http/basketAPI';
+import { fetchOneGood } from 'http/goodAPI';
 
 const Basket = () => {
   const [goodList, setGoodList] = useState([]);
@@ -14,9 +14,7 @@ const Basket = () => {
 
     const fetchData = async () => {
       const data = await fetchBasketGoods();
-      const list = await Promise.all(
-        data.map(async ({ goodId }) => await fetchOneGood(goodId))
-      );
+      const list = await Promise.all(data.map(({ goodId }) => fetchOneGood(goodId)));
       setGoodList(list);
     };
 

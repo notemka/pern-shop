@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { deleteBasketGood } from '../../http/basketAPI';
-import breakpoints from '../../styles/breakpoints';
-import Button from '../atoms/buttons/Button';
+import { deleteBasketGood } from 'http/basketAPI';
+import breakpoints from 'styles/breakpoints';
+import Button from 'components/atoms/buttons/Button';
 
 const GoodItem = styled.li`
   display: grid;
@@ -31,12 +31,10 @@ const GoodItem = styled.li`
   }
 `;
 
-const BasketList = ({ goods }) => {
-  return (
+const BasketList = ({ goods }) => (
     <>
       <ul>
-        {goods.map(({ id, name, price, img }) => {
-          return (
+        {goods.map(({ id, name, price, img }) => (
             <GoodItem key={id}>
               <figure>
                 <img src={process.env.REACT_APP_API_URL + img} alt={name} />
@@ -48,11 +46,9 @@ const BasketList = ({ goods }) => {
 
               <Button onClick={() => deleteBasketGood(id)}>Удалить</Button>
             </GoodItem>
-          );
-        })}
+          ))}
       </ul>
     </>
   );
-};
 
 export default BasketList;

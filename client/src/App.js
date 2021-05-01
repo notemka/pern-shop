@@ -1,8 +1,8 @@
-import { useEffect, useState, createContext, useMemo } from 'react';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Loader from './components/atoms/Loader';
-import { check } from './http/userAPI';
-import { authRoutes, publicRoutes, detailsRoutes, SHOP_ROUTE } from './routes';
+import Loader from 'components/atoms/Loader';
+import { check } from 'http/userAPI';
+import { authRoutes, publicRoutes, detailsRoutes, SHOP_ROUTE } from 'routes';
 
 export const Context = createContext({});
 
@@ -24,7 +24,7 @@ const App = () => {
       types,
       setTypes,
     }),
-    [user, setUser, goods, setGoods, brands, setBrands, types, setTypes]
+    [user, setUser, goods, setGoods, brands, setBrands, types, setTypes],
   );
 
   useEffect(() => {
@@ -45,10 +45,7 @@ const App = () => {
     <Context.Provider value={providerValue}>
       <Switch>
         {user
-          ? [
-              ...authRoutes(user),
-              ...detailsRoutes,
-            ].map(({ path, component }) => (
+          ? [...authRoutes(user), ...detailsRoutes].map(({ path, component }) => (
               <Route key={path} path={path} component={component} exact />
             ))
           : [...publicRoutes, ...detailsRoutes].map(({ path, component }) => (

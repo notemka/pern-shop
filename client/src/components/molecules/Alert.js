@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import RoundButton from '../atoms/buttons/RoundButton';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 
 const AlertList = styled.ul`
   position: fixed;
@@ -56,26 +56,24 @@ const Alert = () => {
     setAlerts((alertsMsgs) => alertsMsgs.filter((alert) => alert.id !== id));
   };
 
-  const showAlertMessage = (data) => {
-    let timer;
-    const time = 4000;
-    const id = Date.now().toString(32);
-    const alert = { id, ...data };
-    clearTimeout(timer);
+  // const showAlertMessage = (data) => {
+  //   let timer;
+  //   const time = 4000;
+  //   const id = Date.now().toString(32);
+  //   const alert = { id, ...data };
+  //   clearTimeout(timer);
 
-    setAlerts((alertsMsgs) => ({ ...alertsMsgs, alert }));
+  //   setAlerts((alertsMsgs) => ({ ...alertsMsgs, alert }));
 
-    timer = setTimeout(() => hideAlertMessage(alert.id), time);
-  };
+  //   timer = setTimeout(() => hideAlertMessage(alert.id), time);
+  // };
 
   return (
     <AlertList>
       {alerts.map((alert) => (
         <AlertItem className={alert.type ? alert.type : ''}>
           <span>{alert.text}</span>
-          <StyledButton onClick={() => hideAlertMessage(alert.id)}>
-            &times;
-          </StyledButton>
+          <StyledButton onClick={() => hideAlertMessage(alert.id)}>&times;</StyledButton>
         </AlertItem>
       ))}
     </AlertList>

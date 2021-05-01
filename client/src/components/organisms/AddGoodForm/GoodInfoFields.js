@@ -1,8 +1,8 @@
 import React from 'react';
-import FieldWrapper from '../../atoms/FieldWrapper';
-import Input from '../../atoms/Input';
-import Button from '../../atoms/buttons/Button';
-import RoundButton from '../../atoms/buttons/RoundButton';
+import FieldWrapper from 'components/atoms/FieldWrapper';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
@@ -33,8 +33,7 @@ const GoodInfoFields = ({
   addProperty,
   changeProperty,
   removeProperty,
-}) => {
-  return (
+}) => (
     <FieldWrapper>
       <StyledButton title="Добавить свойство" onClick={addProperty}>
         <FontAwesomeIcon icon={faPlus} />
@@ -70,6 +69,5 @@ const GoodInfoFields = ({
       ))}
     </FieldWrapper>
   );
-};
 
 export default GoodInfoFields;

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStyles from '../../styles/globalStyles';
-import breakpoints from '../../styles/breakpoints';
-import Header from '../organisms/Header';
+import GlobalStyles from 'styles/globalStyles';
+import breakpoints from 'styles/breakpoints';
+import Header from 'components/organisms/Header';
 
 const Container = styled.main`
   display: flex;
@@ -17,8 +17,7 @@ const Container = styled.main`
   }
 `;
 
-const MainTemplate = ({ children }) => {
-  return (
+const MainTemplate = ({ children }) => (
     <>
       <GlobalStyles />
 
@@ -26,6 +25,5 @@ const MainTemplate = ({ children }) => {
       <Container>{children}</Container>
     </>
   );
-};
 
 export default MainTemplate;

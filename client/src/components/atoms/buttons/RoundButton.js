@@ -11,23 +11,10 @@ const StyledButton = styled(Button)`
 `;
 
 const RoundButton = (props) => {
-  const {
-    children,
-    disabled,
-    className,
-    onClick,
-    type = 'button',
-    title,
-  } = props;
+  const { children, disabled, className, onClick, type = 'button', title } = props;
 
   return (
-    <StyledButton
-      type={type}
-      className={className}
-      title={title}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <StyledButton type={type} className={className} title={title} onClick={onClick} disabled={disabled}>
       {children}
     </StyledButton>
   );

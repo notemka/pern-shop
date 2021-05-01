@@ -1,0 +1,61 @@
+{
+  "env": {
+    "jest": true,
+    "browser": true
+  },
+  "extends": [
+    "airbnb", 
+    "prettier",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "parser": "babel-eslint",
+  "globals": {
+    "document": true,
+    "localStorage": true,
+    "window": true,
+    "navigator": true,
+    "fetch": true
+  },
+  "plugins": [
+    "prettier",
+    "react-hooks",
+    "testing-library",
+    "jest-dom"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}],
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": 0,
+    "react/no-array-index-key": 0,
+    "react/no-did-update-set-state": "off",
+    "global-require": "warn",
+    "no-underscore-dangle": [2, { "allow": [ "__STORE__" ] }],
+    "no-param-reassign": ["error", { "props": false }],
+    "quotes": ["error", "single"],
+    "prefer-template": "off",
+    "import/no-cycle": "off",
+    "jsx-a11y/label-has-for": [ 1, {
+      "components": [ "Label" ],
+      "required": {
+        "some": [ "nesting", "id" ]
+      },
+      "allowChildren": false
+    }],
+    "jsx-a11y/media-has-caption": 1,
+    "jsx-a11y/anchor-is-valid": 0,
+    "max-len": 0,
+    "camelcase": "off",
+    "no-unused-expressions": "warn",
+    "no-nested-ternary": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+      }
+    }
+  }
+}

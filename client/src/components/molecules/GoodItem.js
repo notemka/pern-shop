@@ -1,17 +1,13 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { GOOD_ROUTE } from '../../routes';
-import { Context } from '../../App';
-import { deleteGood } from '../../http/goodAPI';
-import { addGoodToBasket } from '../../http/basketAPI';
+import { GOOD_ROUTE } from 'routes';
+import { Context } from 'App';
+import { deleteGood } from 'http/goodAPI';
+import { addGoodToBasket } from 'http/basketAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHeart,
-  faTrash,
-  faShoppingCart,
-} from '@fortawesome/free-solid-svg-icons';
-import RoundButton from '../atoms/buttons/RoundButton';
+import { faHeart, faTrash, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 
 const Wrapper = styled.article`
   display: flex;
@@ -69,10 +65,19 @@ const GoodItem = ({ good }) => {
   const { id, name, price, rating, img } = good;
   const { user } = useContext(Context);
 
-  const removeGood = async (id) => {
+  const removeGood = async () => {
     try {
       await deleteGood(id);
-      alert(`Товар успешно удален!`);
+      alert('Товар успешно удален!');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const addToBasket = async () => {
+    try {
+      await addGoodToBasket(id);
+      alert('Товар добавлен в корзину!');
     } catch (error) {
       console.log(error.message);
     }
@@ -81,13 +86,7 @@ const GoodItem = ({ good }) => {
   return (
     <li>
       <Wrapper>
-        <Photo>
-          {img ? (
-            <img src={process.env.REACT_APP_API_URL + img} alt="tool" />
-          ) : (
-            'Фото отсутствует'
-          )}
-        </Photo>
+        <Photo>{img ? <img src={process.env.REACT_APP_API_URL + img} alt="tool" /> : 'Фото отсутствует'}</Photo>
 
         <Description>
           <Link to={`${GOOD_ROUTE}/${id}`}>
@@ -107,13 +106,13 @@ const GoodItem = ({ good }) => {
             <RoundButton title="Добавить в избранное" onClick={() => {}}>
               <FontAwesomeIcon icon={faHeart} />
             </RoundButton>
-            <RoundButton title="Купить" onClick={() => addGoodToBasket(id)}>
+            <RoundButton title="Купить" onClick={addToBasket}>
               <FontAwesomeIcon icon={faShoppingCart} />
             </RoundButton>
 
             {user?.role === 'ADMIN' && (
               <>
-                <RoundButton title="Удалить" onClick={() => removeGood(id)}>
+                <RoundButton title="Удалить" onClick={removeGood}>
                   <FontAwesomeIcon icon={faTrash} />
                 </RoundButton>
               </>

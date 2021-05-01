@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Form from '../atoms/Form';
-import Input from '../atoms/Input';
-import Button from '../atoms/buttons/Button';
-import { LOGIN_ROUTE, SHOP_ROUTE } from '../../routes';
-import { login, registration } from '../../http/userAPI';
-import { Context } from '../../App';
+import Form from 'components/atoms/Form';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import { LOGIN_ROUTE, SHOP_ROUTE } from 'routes';
+import { login, registration } from 'http/userAPI';
+import { Context } from 'App';
 
 const FieldActions = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ const AuthForm = () => {
   };
 
   const onChange = (event) => {
-    const value = event.target.value;
+    const {value} = event.target;
 
     if (event.target.name === 'email') {
       return setEmail(value);

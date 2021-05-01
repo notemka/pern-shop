@@ -1,14 +1,12 @@
 import React from 'react';
-import MainTemplate from '../components/templates/MainTemplate';
+import MainTemplate from 'components/templates/MainTemplate';
 
-const Favorites = () => {
-  return (
+const Favorites = () => (
     <MainTemplate>
       <div>
         <h1>Избранное</h1>
       </div>
     </MainTemplate>
   );
-};
 
 export default Favorites;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { createType } from '../../http/typesAPI';
-import Form from '../atoms/Form';
-import Input from '../atoms/Input';
-import Button from '../atoms/buttons/Button';
-import Loader from '../atoms/Loader';
+import { createType } from 'http/typesAPI';
+import Form from 'components/atoms/Form';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import Loader from 'components/atoms/Loader';
 
 const AddTypeForm = () => {
   const [type, setType] = useState('');

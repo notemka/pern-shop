@@ -11,6 +11,6 @@ export const createType = async (type) => {
 };
 
 export const deleteType = async (id) => {
-  const { data } = await $authHost.delete('api/types/' + id);
+  const { data } = await $authHost.delete(`api/types/${id}`);
   return data;
 };

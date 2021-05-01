@@ -11,6 +11,6 @@ export const createBrand = async (brand) => {
 };
 
 export const deleteBrand = async (id) => {
-  const { data } = await $authHost.delete('api/brands/' + id);
+  const { data } = await $authHost.delete(`api/brands/${id}`);
   return data;
 };

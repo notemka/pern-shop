@@ -1,5 +1,5 @@
-import { $authHost, $host } from '.';
 import jwt_decode from 'jwt-decode';
+import { $authHost, $host } from '.';
 
 export const registration = async (email, password) => {
   try {
@@ -44,6 +44,6 @@ export const check = async () => {
     localStorage.setItem('token', token);
     return jwt_decode(token);
   } catch (error) {
-    console.error(error.message);
+    throw new Error(error.message);
   }
 };

@@ -5,11 +5,7 @@ const GoodsProvider = ({ children }) => {
   const [goods, setGoods] = useState([]);
   const providerValue = useMemo(() => ({ goods, setGoods }), [goods, setGoods]);
 
-  return (
-    <GoodsContext.Provider value={providerValue}>
-      {children}
-    </GoodsContext.Provider>
-  );
+  return <GoodsContext.Provider value={providerValue}>{children}</GoodsContext.Provider>;
 };
 
 export default GoodsProvider;

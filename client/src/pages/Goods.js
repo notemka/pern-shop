@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import MainTemplate from '../components/templates/MainTemplate';
-import GoodList from '../components/molecules/GoodList';
-import InfoText from '../components/atoms/InfoText';
-import SearchField from '../components/molecules/SearchField';
-import { fetchGoods } from '../http/goodAPI';
-import Loader from '../components/atoms/Loader';
-import { Context } from '../App';
+import MainTemplate from 'components/templates/MainTemplate';
+import GoodList from 'components/molecules/GoodList';
+import InfoText from 'components/atoms/InfoText';
+import SearchField from 'components/molecules/SearchField';
+import { fetchGoods } from 'http/goodAPI';
+import Loader from 'components/atoms/Loader';
+import { Context } from 'App';
 
 const Goods = () => {
   const { goods, setGoods } = useContext(Context);
