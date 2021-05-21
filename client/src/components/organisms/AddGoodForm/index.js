@@ -10,7 +10,7 @@ import CategorySelect from 'components/molecules/CategorySelect';
 import GoodInfoFields from './GoodInfoFields';
 
 const AddGoodForm = ({ data, isEditMode }) => {
-  console.log(data);
+  // console.log(data);
 
   const initialFields = {
     name: data?.name || '',
@@ -20,6 +20,8 @@ const AddGoodForm = ({ data, isEditMode }) => {
     file: data?.img || '',
     info: data?.info || [],
   };
+
+  if (data?.id) initialFields.id = data.id;
 
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -102,7 +104,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
       let message;
 
       if (isEditMode) {
-        goodData = await updateGood(formData);
+        goodData = await updateGood(goodFields.id, formData);
         message = `Товар ${goodData.name} обнавлен`;
       } else {
         goodData = await createGood(formData);
@@ -128,12 +130,14 @@ const AddGoodForm = ({ data, isEditMode }) => {
             label="Категории"
             name="categories"
             options={types}
+            value={type}
             onChange={(option) => onChange('categories', option)}
           />
           <CategorySelect
             label="Бренды"
             name="brands"
             options={brands}
+            value={brand}
             onChange={(option) => onChange('brands', option)}
           />
 

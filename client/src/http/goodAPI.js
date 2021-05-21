@@ -16,8 +16,8 @@ export const createGood = async (good) => {
   return data;
 };
 
-export const updateGood = async (id) => {
-  const { data } = await $authHost.post(`api/goods/${id}`);
+export const updateGood = async (id, updatedGood) => {
+  const { data } = await $authHost.put(`api/goods/${id}`, updatedGood);
   return data;
 };
 

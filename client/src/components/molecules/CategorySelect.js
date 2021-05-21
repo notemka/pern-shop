@@ -28,13 +28,16 @@ const themeOptions = (theme) => ({
   },
 });
 
-const CategorySelect = ({ options, label, name, onChange }) => {
+const CategorySelect = ({ options, label, name, onChange, value }) => {
   const optionsList = options.map((option) => ({
     value: option.name,
     label: option.name,
     id: option.id,
   }));
-  const [currentValue, setCurrentValue] = useState(optionsList[0]);
+
+  const usedValue = value ? optionsList.find((item) => item.id === value) : optionsList[0];
+  const [currentValue, setCurrentValue] = useState(usedValue);
+
   const selectId = name;
 
   const customStyles = {

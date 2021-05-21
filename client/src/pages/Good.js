@@ -33,8 +33,6 @@ const Good = () => {
     setLoading(false);
   }, []);
 
-  console.log(loading);
-  console.log(good);
   return (
     <MainTemplate>
       <Wrapper data-testid="test-recipe-page">

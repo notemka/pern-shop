@@ -19,7 +19,7 @@ export default ({ good }) => {
 
       {isEditMode ? (
         <FormWrapper>
-          <AddGoodForm data={good} />
+          <AddGoodForm data={good} isEditMode={isEditMode} />
         </FormWrapper>
       ) : (
         <GoodContainer good={good} />
