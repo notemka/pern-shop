@@ -8,6 +8,7 @@ import { LOGIN_ROUTE, SHOP_ROUTE } from '../../routes';
 import { Context } from '../../App';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, REGISTER_USER } from '../../graphql/mutations/user';
+import jwt_decode from 'jwt-decode';
 
 const FieldActions = styled.div`
   display: flex;
@@ -32,9 +33,9 @@ const AuthForm = () => {
 
   const [getUser, { loading }] = useMutation(fetchQuery, {
     onCompleted: (data) => {
-      const userData = isLoginPage ? data.loginUser : data.registerUser;
-      setUser(userData);
-      localStorage.setItem('accessToken', userData.accessToken);
+      const { token } = isLoginPage ? data.loginUser : data.registerUser;
+      setUser(jwt_decode(token));
+      localStorage.setItem('accessToken', token);
     },
   });
 

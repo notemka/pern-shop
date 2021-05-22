@@ -2,8 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User, Basket } = require('../models');
 
-const generateToken = (id, expiresIn) => {
-  return jwt.sign({ id }, process.env.SECRET_KEY, {
+const generateToken = (id, email, role, expiresIn) => {
+  return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
     expiresIn,
   });
 };
@@ -22,18 +22,8 @@ class UserController {
     const hashPasword = await bcrypt.hash(password, 5);
     const user = await User.create({ email, password: hashPasword, role });
     await Basket.create({ userId: user.id });
-    const accessToken = generateToken(user.id, '30min');
-    const refreshToken = generateToken(user.id, '60d');
-    const userData = {
-      me: {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      },
-      accessToken,
-      refreshToken,
-    };
-    return userData;
+    const token = generateToken(user.id, user.email, user.role, '30min');
+    return { token };
   }
 
   async login(email, password) {
@@ -49,18 +39,8 @@ class UserController {
         throw new Error('Неверный пароль');
       }
 
-      const accessToken = generateToken(user.id, '30min');
-      const refreshToken = generateToken(user.id, '60d');
-      const userData = {
-        me: {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-          refreshToken,
-        },
-        accessToken,
-      };
-      return userData;
+      const token = generateToken(user.id, user.email, user.role, '30min');
+      return { token };
     } catch (error) {
       throw new Error(error);
     }
@@ -68,14 +48,8 @@ class UserController {
 
   async check(user) {
     const { id, email, role } = user;
-    const accessToken = generateToken(id, '30min');
-    const refreshToken = generateToken(id, '60d');
-    const userData = {
-      me: { id, email, role },
-      accessToken,
-      refreshToken,
-    };
-    return userData;
+    const token = generateToken(id, email, role, '30min');
+    return { token };
   }
 }
 

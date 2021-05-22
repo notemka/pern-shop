@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GOOD_ROUTE } from '../../routes';
 import { Context } from '../../App';
+import useGoodActions from '../../hooks/useGoodActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -10,7 +11,6 @@ import {
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 import RoundButton from '../atoms/buttons/RoundButton';
-import useGoodActions from '../../hooks/useGoodActions';
 
 const Wrapper = styled.article`
   display: flex;
@@ -67,7 +67,7 @@ const Actions = styled.div`
 const GoodItem = ({ good }) => {
   const { id, name, price, rating, img } = good;
   const { user } = useContext(Context);
-  const { removeGood, addGoodToBasket } = useGoodActions();
+  // const { removeGood, addGoodToBasket } = useGoodActions();
 
   return (
     <li>
@@ -98,13 +98,13 @@ const GoodItem = ({ good }) => {
             <RoundButton title="Добавить в избранное" onClick={() => {}}>
               <FontAwesomeIcon icon={faHeart} />
             </RoundButton>
-            <RoundButton title="Купить" onClick={() => addGoodToBasket(id)}>
+            <RoundButton title="Купить" onClick={() => {}}>
               <FontAwesomeIcon icon={faShoppingCart} />
             </RoundButton>
 
             {user?.role === 'ADMIN' && (
               <>
-                <RoundButton title="Удалить" onClick={() => removeGood(id)}>
+                <RoundButton title="Удалить" onClick={() => {}}>
                   <FontAwesomeIcon icon={faTrash} />
                 </RoundButton>
               </>

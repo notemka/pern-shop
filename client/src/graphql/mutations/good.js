@@ -2,61 +2,23 @@ import { gql } from '@apollo/client';
 
 export const CREATE_GOOD = gql`
   mutation createGood(
-    $id: ID!
-    $name: String!
-    $price: Float!
-    $rating: Int!
-    $img: String!
-    $typeId: ID!
-    $brandId: ID!
-  ) {
-    createGood(
-      input: {
-        id: $id
-        name: $name
-        price: $price
-        rating: $rating
-        img: $img
-        typeId: $typeId
-        brandId: $brandId
-      }
-    ) {
-      id
-      name
-      price
-      rating
-      img
-      brandId
-      typeId
-    }
-  }
-`;
-
-export const UPDATE_GOOD = gql`
-  query updateGood(
-    $id: ID!
     $name: String!
     $price: Float!
     $rating: Int
-    $img: String
-    $brandId: ID!
+    $img: Upload
     $typeId: ID!
-    $title: String
-    $description: String
-    $goodId: ID!
+    $brandId: ID!
+    $info: String
   ) {
-    updateGood(
+    createGood(
       input: {
-        id: $id
         name: $name
         price: $price
         rating: $rating
         img: $img
-        brandId: $brandId
         typeId: $typeId
-        title: $title
-        description: $description
-        goodId: $goodId
+        brandId: $brandId
+        info: $info
       }
     ) {
       id
@@ -69,15 +31,49 @@ export const UPDATE_GOOD = gql`
       info {
         title
         description
-        goodId
       }
     }
   }
 `;
 
+export const UPDATE_GOOD = gql`
+  mutation updateGood(
+    $id: ID!
+    $name: String!
+    $price: Float!
+    $rating: Int
+    $img: Upload
+    $brandId: ID!
+    $typeId: ID!
+    $info: String
+  ) {
+    updateGood(
+      input: {
+        id: $id
+        name: $name
+        price: $price
+        rating: $rating
+        img: $img
+        brandId: $brandId
+        typeId: $typeId
+        info: $info
+      }
+    ) {
+      id
+      name
+      price
+      rating
+      img
+      brandId
+      typeId
+      info
+    }
+  }
+`;
+
 export const DELETE_GOOD = gql`
-  query deleteGood($id: ID!) {
-    updateGood(id: $id) {
+  mutation deleteGood($id: ID!) {
+    deleteGood(id: $id) {
       id
       name
     }

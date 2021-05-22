@@ -1,10 +1,18 @@
 import { useMutation } from '@apollo/client';
 import { DELETE_GOOD, UPDATE_GOOD } from '../graphql/mutations/good';
 import { ADD_TO_BASKET } from '../graphql/mutations/basket';
+import { GET_ALL_GOODS } from '../graphql/queries/goods';
 
 const useGoodActions = () => {
-  const [updateGood, { loading: updateLoading }] = useMutation(UPDATE_GOOD);
-  const [deleteGood, { loading: deleteLoading }] = useMutation(DELETE_GOOD);
+  const mutationOptions = { refetchQueries: [{ query: GET_ALL_GOODS }] };
+  const [updateGood, { loading: updateLoading }] = useMutation(
+    UPDATE_GOOD,
+    mutationOptions
+  );
+  const [deleteGood, { loading: deleteLoading }] = useMutation(
+    DELETE_GOOD,
+    mutationOptions
+  );
   const [addToBasket, { loading: basketLoading }] = useMutation(ADD_TO_BASKET);
 
   const editGood = async (data) => {

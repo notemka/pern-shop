@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const CREATE_BRAND = gql`
   mutation createBrand($name: String!) {
-    createType(name: $name) {
+    createBrand(name: $name) {
       name
     }
   }
@@ -10,7 +10,7 @@ export const CREATE_BRAND = gql`
 
 export const UPDATE_BRAND = gql`
   mutation updateBrand($id: ID!, $name: String!) {
-    updateType(id: $id, name: $name) {
+    updateBrand(id: $id, name: $name) {
       id
       name
     }
@@ -19,7 +19,7 @@ export const UPDATE_BRAND = gql`
 
 export const DELETE_BRAND = gql`
   mutation deleteBrand($id: ID!) {
-    deleteType(id: $id) {
+    deleteBrand(id: $id) {
       id
     }
   }

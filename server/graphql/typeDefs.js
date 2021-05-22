@@ -1,4 +1,14 @@
+const { Upload } = require('graphql-upload');
+
 const typeDefs = `
+  scalar Upload
+
+  type File {
+    filename: String
+    mimetype: String
+    encoding: String
+  }
+
   type Profile {
     id: ID
     email: String
@@ -6,8 +16,7 @@ const typeDefs = `
   }
 
   type User {
-    me: Profile
-    accessToken: String
+    token: String
   }
 
   type Type {
@@ -32,7 +41,7 @@ const typeDefs = `
     name: String
     price: Float
     rating: Int
-    img: String
+    img: Upload
     typeId: ID
     brandId: ID
     info: [GoodInfo]

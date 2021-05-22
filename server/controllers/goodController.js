@@ -3,10 +3,12 @@ const path = require('path');
 const { Good, GoodInfo } = require('../models');
 
 class GoodController {
-  async create(data) {
+  async create(data, req) {
     try {
-      const { name, price, brandId, typeId, info, files } = data;
-      const { img } = files;
+      const { name, price, brandId, typeId, info, img } = data;
+      console.log('req.files:', req);
+      // const { img } = req.files;
+      console.log('img:', img);
       const fileName = `${uuid.v4()}.jpg`;
       // path.resolve() - адаптирует указанный путь к ОС
       // параметр '..' переход на папку выше
@@ -83,15 +85,28 @@ class GoodController {
   }
 
   async update(data) {
-    const { id } = data;
+    const { id, infoTitle, infoDescription } = data;
 
     try {
-      await Good.update({
-        ...data,
-        returning: true,
-        where: { id },
-        include: [{ model: GoodInfo, as: 'info' }],
-      });
+      await Good.update(
+        data,
+        { where: { id } },
+        { returning: true, include: [{ model: GoodInfo, as: 'info' }] }
+      );
+
+      if (data.info.length) {
+        const infoArray = JSON.parse(info);
+        await infoArray.map(async ({ title, description }) => {
+          await GoodInfo.update(
+            {
+              title: infoTitle,
+              description: infoDescription,
+            },
+            { where: { goodId: id } }
+          );
+        });
+      }
+
       return 'Success';
     } catch (error) {
       throw new Error(error);

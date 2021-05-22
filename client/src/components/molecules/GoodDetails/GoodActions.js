@@ -41,7 +41,7 @@ const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
       {user?.role === 'ADMIN' && (
         <>
           <Button onClick={() => setIsEditMode((mode) => !mode)}>
-            {isEditMode ? 'Редактировать' : 'Отменить'}
+            {isEditMode ? 'Отменить' : 'Редактировать'}
           </Button>
           <Button onClick={() => removeGood(goodId)}>Удалить</Button>
         </>

@@ -52,7 +52,7 @@ const AdminPanelList = () => {
     if (!loading) {
       setDataList(isTypesList ? data.getAllTypes : data.getAllBrands);
     }
-  }, []);
+  }, [data]);
 
   return (
     <MainTemplate>

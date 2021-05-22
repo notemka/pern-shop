@@ -9,6 +9,7 @@ const fileupload = require('express-fileupload');
 // const router = require('./routes');    // for rest api
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
 const path = require('path');
+const { graphqlUploadExpress } = require('graphql-upload');
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -19,10 +20,19 @@ app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(fileupload({}));
 app.use(
   '/graphql',
-  graphqlHTTP({ graphiql: true, schema, rootValue: resolvers })
+  graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
+  graphqlHTTP((req, res) => {
+    return {
+      graphiql: true,
+      schema,
+      rootValue: resolvers,
+      context: {
+        req,
+        res,
+      },
+    };
+  })
 );
-// по-умолчанию express не умеет парсить json формат
-// и возвращает undefined, если в тело запроса отправлены json данные
 // app.use('/api', router); // for rest api
 
 // Обработка ошибок, последний middleware
@@ -35,7 +45,9 @@ const start = async () => {
     // сверяет состояние бд со схемой данных, которую мы описали
     await sequelize.sync();
 
-    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`Running a GraphQL API server at localhost:${PORT}/graphql`)
+    );
   } catch (error) {
     console.log(error);
   }
