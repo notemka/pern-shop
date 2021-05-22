@@ -1,9 +1,16 @@
-const { Basket, BasketGood } = require('../models');
+const { Basket, BasketGood, Good } = require('../models');
 
 class BasketController {
   async addToBasket(id, userId) {
     try {
       const basket = await Basket.findOne({ where: { userId } });
+      const addedGood = await BasketGood.findOne({
+        where: { goodId: id, userId },
+      });
+      if (addedGood) {
+        throw new Error('Данный товар уже в корзине!');
+      }
+
       const basketGood = await BasketGood.create({
         goodId: id,
         basketId: basket.id,
@@ -26,10 +33,15 @@ class BasketController {
     }
   }
 
-  async deleteFromBasket(id, basketId) {
+  async deleteFromBasket(goodId, userId) {
     try {
-      await BasketGood.destroy({ where: { goodId: id, basketId } });
-      return 'Success';
+      // to know which user to remove this good from
+      const basket = await Basket.findOne({ where: { userId } });
+
+      await BasketGood.destroy({
+        where: { goodId, basketId: basket.id },
+      });
+      return 'Good deleted successfully';
     } catch (error) {
       throw new Error(error.message);
     }

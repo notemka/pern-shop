@@ -3,10 +3,17 @@ const userController = require('../controllers/userController');
 const typeController = require('../controllers/typeController');
 const brandController = require('../controllers/brandController');
 const basketController = require('../controllers/basketController');
+const { GraphQLUpload } = require('graphql-upload');
+const authMiddleware = require('../middleware/authMiddleware');
+// const checkRoleMiddleware = require('../middleware/checkRoleMiddleware');
 
 const resolvers = {
-  checkUserAccess: async ({ input }) => await userController.check(input),
-
+  Upload: GraphQLUpload,
+  checkUserAccess: async (_, context) => {
+    const user = authMiddleware(context.req);
+    const token = await userController.check(user);
+    return token;
+  },
   getAllGoods: async ({ brandId, typeId, limit, page }) => {
     const data = await goodController.getAll(brandId, typeId, limit, page);
     // data contains count and rows, example: { count: 4, rows: [...]}
@@ -23,21 +30,38 @@ const resolvers = {
   loginUser: async ({ email, password }) =>
     await userController.login(email, password),
 
-  createGood: async ({ input }) => await goodController.create(input),
-  updateGood: async ({ input }) => await goodController.update(input),
-  deleteGood: async ({ id }) => await goodController.delete(id),
+  createGood: async ({ input }, context) => {
+    console.log('input:', input);
+    console.log('context.req.files:', context.req.files);
+    // checkRoleMiddleware(context.req.user);
+    return await goodController.create(input, context.req, context.res);
+  },
+  updateGood: async ({ input }, context) => {
+    // checkRoleMiddleware(context.req.user)
+    return await goodController.update(input);
+  },
+  deleteGood: async ({ id }, context) => {
+    // checkRoleMiddleware(context.req.user)
+    return await goodController.delete(id);
+  },
 
   createType: async ({ name }) => await typeController.create(name),
-  updateType: async ({ id }) => await typeController.update(id),
+  updateType: async ({ input }) => await typeController.update(input),
   deleteType: async ({ id }) => await typeController.delete(id),
 
   createBrand: async ({ name }) => await brandController.create(name),
-  updateBrand: async ({ id }) => await brandController.update(id),
+  updateBrand: async ({ input }) => await brandController.update(input),
   deleteBrand: async ({ id }) => await brandController.delete(id),
 
-  addToBasket: async ({ input }) => await basketController.addToBasket(input),
-  deleteFromBasket: async ({ input }) =>
-    await basketController.deleteFromBasket(input),
+  addToBasket: async ({ id }, context) => {
+    const user = authMiddleware(context.req);
+    const basketId = user.id;
+    await basketController.addToBasket(id, basketId);
+  },
+  deleteFromBasket: async ({ goodId }, context) => {
+    const user = authMiddleware(context.req);
+    await basketController.deleteFromBasket(goodId, user.id);
+  },
 };
 
 module.exports = resolvers;

@@ -1,17 +1,17 @@
 import { gql } from '@apollo/client';
 
 export const ADD_TO_BASKET = gql`
-  mutation addToBasket($id: ID!, $basketId: ID!) {
-    addToBasket(input: { id: $id, basketId: $basketId }) {
+  mutation addToBasket($id: ID!) {
+    addToBasket(id: $id) {
       id
     }
   }
 `;
 
 export const DELETE_FROM_BASKET = gql`
-  mutation deleteFromBasket($id: ID!, $basketId: ID!) {
-    deleteFromBasket(input: { id: $id, basketId: $basketId }) {
-      id
+  mutation deleteFromBasket($goodId: ID!) {
+    deleteFromBasket(goodId: $goodId) {
+      goodId
     }
   }
 `;

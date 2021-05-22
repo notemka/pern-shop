@@ -59,7 +59,7 @@ export const adminRoutes = [
 ];
 
 export const authRoutes = (user) =>
-  user?.me.role === 'ADMIN' ? adminRoutes : userRoutes;
+  user?.role === 'ADMIN' ? adminRoutes : userRoutes;
 
 export const publicRoutes = [
   ...commonRoutes,

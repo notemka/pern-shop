@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createBrand } from '../../http/brandsAPI';
 import Form from '../atoms/Form';
 import Input from '../atoms/Input';
 import Button from '../atoms/buttons/Button';

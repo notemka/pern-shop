@@ -31,7 +31,7 @@ const Good = () => {
     if (!loading) {
       setGood(data.getOneGood);
     }
-  }, [data]);
+  }, [loading, data]);
 
   return (
     <MainTemplate>
@@ -46,7 +46,6 @@ const Good = () => {
           <GoodDetails good={good} />
         ) : (
           <InfoText>{error ? error : 'Что-то пошло не так...'}</InfoText>
-          // <InfoText>Что-то пошло не так...</InfoText>
         )}
       </Wrapper>
     </MainTemplate>

@@ -3,50 +3,44 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import {
   ApolloClient,
-  createHttpLink,
+  HttpLink,
   ApolloProvider,
   InMemoryCache,
-  from,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { TokenRefreshLink } from 'apollo-link-token-refresh';
-import axios from 'axios';
 
-const authHost = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-});
+const getHeaders = () => {
+  const token = localStorage.getItem('accessToken');
+  const headers = {
+    authorization: token ? `Bearer ${token}` : '',
+  };
+  return headers;
+};
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_URL + 'graphql',
+  fetch,
+  headers: getHeaders(),
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('accessToken');
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      ...getHeaders(),
     },
   };
 });
 
-const tokenRefresh = new TokenRefreshLink({
-  accessTokenField: 'accessToken',
-  isTokenValidOrUndefined: () => {},
-  fetchAccessToken: () => {},
-  handleFetch: (accessToken) => {},
-  handleError: (err) => {
-    console.warn('Your refresh token is invalid. Try to relogin');
-    console.log(err);
-  },
-});
-
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
-  // link: from([tokenRefresh, authLink, httpLink]),
+  cache: new InMemoryCache(),
+  fetchOptions: {
+    mode: 'no-cors',
+  },
 });
 
 ReactDOM.render(

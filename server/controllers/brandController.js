@@ -15,6 +15,15 @@ class BrandController {
     return brands;
   }
 
+  async update(data) {
+    try {
+      await Brand.update(data, { where: { id: data.id } }, { returning: true });
+      return 'Success';
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async delete(id) {
     try {
       await Brand.destroy({ where: { id } });

@@ -20,7 +20,8 @@ module.exports = (role) => {
       }
       req.user = decoded;
       next();
-    } catch (e) {
+    } catch (error) {
+      console.log(error);
       res.status(401).json({ message: errorMessage });
     }
   };

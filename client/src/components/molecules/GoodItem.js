@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GOOD_ROUTE } from '../../routes';
 import { Context } from '../../App';
+import useGoodActions from '../../hooks/useGoodActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faTools,
   faHeart,
   faTrash,
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 import RoundButton from '../atoms/buttons/RoundButton';
-import useGoodActions from '../../hooks/useGoodActions';
 
 const Wrapper = styled.article`
   display: flex;
@@ -76,7 +77,7 @@ const GoodItem = ({ good }) => {
           {img ? (
             <img src={process.env.REACT_APP_API_URL + img} alt="tool" />
           ) : (
-            'Фото отсутствует'
+            <FontAwesomeIcon icon={faTools} />
           )}
         </Photo>
 

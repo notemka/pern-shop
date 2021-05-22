@@ -1,8 +1,11 @@
+import { useMutation } from '@apollo/client';
 import React from 'react';
 import styled from 'styled-components';
-import { deleteBasketGood } from '../../http/basketAPI';
+import { DELETE_FROM_BASKET } from '../../graphql/mutations/basket';
 import breakpoints from '../../styles/breakpoints';
 import Button from '../atoms/buttons/Button';
+import InfoText from '../atoms/InfoText';
+import Loader from '../atoms/Loader';
 
 const GoodItem = styled.li`
   display: grid;
@@ -32,26 +35,38 @@ const GoodItem = styled.li`
 `;
 
 const BasketList = ({ goods }) => {
-  return (
-    <>
-      <ul>
-        {goods.map(({ id, name, price, img }) => {
-          return (
-            <GoodItem key={id}>
-              <figure>
-                <img src={process.env.REACT_APP_API_URL + img} alt={name} />
-              </figure>
-              <div>
-                <h3>{name}</h3>
-                {price} руб.
-              </div>
+  const [deleteFromBasket, { loading }] = useMutation(DELETE_FROM_BASKET);
 
-              <Button onClick={() => deleteBasketGood(id)}>Удалить</Button>
-            </GoodItem>
-          );
-        })}
-      </ul>
-    </>
+  if (!goods.length) {
+    return <InfoText>Корзина пуста</InfoText>;
+  }
+
+  return (
+    <ul>
+      {goods.map(({ id, name, price, img }) => {
+        return (
+          <GoodItem key={id}>
+            <figure>
+              <img src={process.env.REACT_APP_API_URL + img} alt={name} />
+            </figure>
+            <div>
+              <h3>{name}</h3>
+              {price} руб.
+            </div>
+
+            <Button
+              onClick={() =>
+                deleteFromBasket({
+                  variables: { goodId: id },
+                })
+              }
+            >
+              {loading ? <Loader size="small" /> : 'Удалить'}
+            </Button>
+          </GoodItem>
+        );
+      })}
+    </ul>
   );
 };
 

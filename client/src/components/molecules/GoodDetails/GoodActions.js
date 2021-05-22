@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import breakpoints from '../../../styles/breakpoints';
-import { useHistory } from 'react-router-dom';
 import { Context } from '../../../App';
-import { deleteGood } from '../../../http/goodAPI';
-import { addGoodToBasket } from '../../../http/basketAPI';
-import { SHOP_ROUTE } from '../../../routes';
 
 import Button from '../../atoms/buttons/Button';
+import useGoodActions from '../../../hooks/useGoodActions';
 
 const Actions = styled.div`
   display: grid;
@@ -24,24 +21,14 @@ const Actions = styled.div`
 
 const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
   const { user } = useContext(Context);
-  const { push } = useHistory();
-
-  const removeGood = async (id) => {
-    try {
-      await deleteGood(id);
-      push(SHOP_ROUTE);
-      alert(`Товар успешно удален!`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const { removeGood, addGoodToBasket } = useGoodActions();
 
   return (
     <Actions>
       {user?.role === 'ADMIN' && (
         <>
           <Button onClick={() => setIsEditMode((mode) => !mode)}>
-            {isEditMode ? 'Редактировать' : 'Отменить'}
+            {isEditMode ? 'Отменить' : 'Редактировать'}
           </Button>
           <Button onClick={() => removeGood(goodId)}>Удалить</Button>
         </>
