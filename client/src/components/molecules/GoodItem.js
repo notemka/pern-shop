@@ -68,7 +68,7 @@ const Actions = styled.div`
 const GoodItem = ({ good }) => {
   const { id, name, price, rating, img } = good;
   const { user } = useContext(Context);
-  const { removeGood, addGoodToBasket } = useGoodActions();
+  // const { removeGood, addGoodToBasket } = useGoodActions();
 
   return (
     <li>
@@ -99,13 +99,13 @@ const GoodItem = ({ good }) => {
             <RoundButton title="Добавить в избранное" onClick={() => {}}>
               <FontAwesomeIcon icon={faHeart} />
             </RoundButton>
-            <RoundButton title="Купить" onClick={() => addGoodToBasket(id)}>
+            <RoundButton title="Купить" onClick={() => {}}>
               <FontAwesomeIcon icon={faShoppingCart} />
             </RoundButton>
 
             {user?.role === 'ADMIN' && (
               <>
-                <RoundButton title="Удалить" onClick={() => removeGood(id)}>
+                <RoundButton title="Удалить" onClick={() => {}}>
                   <FontAwesomeIcon icon={faTrash} />
                 </RoundButton>
               </>

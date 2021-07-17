@@ -1,3 +1,5 @@
+const { Upload } = require('graphql-upload');
+
 const typeDefs = `
   scalar Upload
 
