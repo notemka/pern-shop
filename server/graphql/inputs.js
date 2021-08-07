@@ -38,6 +38,11 @@ const inputs = `
     info: String
   }
 
+  input BasketListInput {
+    id: ID!
+    goodId: ID!
+  }
+
   input TypeInput {
     id: ID!
     name: String!

@@ -5,7 +5,7 @@ class BasketController {
     try {
       const basket = await Basket.findOne({ where: { userId } });
       const addedGood = await BasketGood.findOne({
-        where: { goodId: id, userId },
+        where: { goodId: id, basketId: basket.id },
       });
       if (addedGood) {
         throw new Error('Данный товар уже в корзине!');

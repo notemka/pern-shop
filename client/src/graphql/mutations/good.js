@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import goodDataFragment from '../fragments/goodDataFragment';
 
 export const CREATE_GOOD = gql`
   mutation createGood(
@@ -21,19 +22,14 @@ export const CREATE_GOOD = gql`
         info: $info
       }
     ) {
-      id
-      name
-      price
-      rating
-      img
-      brandId
-      typeId
+      ...goodData
       info {
         title
         description
       }
     }
   }
+  ${goodDataFragment}
 `;
 
 export const UPDATE_GOOD = gql`
@@ -59,16 +55,11 @@ export const UPDATE_GOOD = gql`
         info: $info
       }
     ) {
-      id
-      name
-      price
-      rating
-      img
-      brandId
-      typeId
+      ...goodData
       info
     }
   }
+  ${goodDataFragment}
 `;
 
 export const DELETE_GOOD = gql`

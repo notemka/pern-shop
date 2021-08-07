@@ -64,6 +64,13 @@ class GoodController {
     return goods;
   }
 
+  async getSomeGoods(idsArray) {
+    const goods = await Promise.all(
+      idsArray.map(async (id) => await Good.findOne({ where: { id } }))
+    );
+    return goods;
+  }
+
   async getOne(id) {
     const good = await Good.findOne({
       where: { id },

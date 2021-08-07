@@ -20,13 +20,23 @@ const resolvers = {
     return data.rows;
   },
   getOneGood: async ({ id }) => await goodController.getOne(id),
+  getGoodsDataForBasket: async ({ basketList }) => {
+    const filteredBasketList = basketList.reduce((result, { goodId }) => {
+      if (goodId) {
+        result.push(goodId);
+      }
+      return result;
+    }, []);
+    const basketGoods = await goodController.getSomeGoods(filteredBasketList);
+    return basketGoods;
+  },
 
   getAllTypes: async () => await typeController.getAll(),
   getAllBrands: async () => await brandController.getAll(),
   getAllBasketGoods: async ({ id }) => await basketController.getAll(id),
 
   registerUser: async ({ email, password, role }) =>
-    await userController.registation(email, password, role),
+    await userController.registration(email, password, role),
   loginUser: async ({ email, password }) =>
     await userController.login(email, password),
 

@@ -4,6 +4,7 @@ const queries = `
 
     getAllGoods(brandId: Int, typeId: Int, limit: Int, page: Int): [Good]
     getOneGood(id: ID!): Good
+    getGoodsDataForBasket(basketList: [BasketListInput]): [Good]
 
     getAllTypes: [Type]
 

@@ -1,29 +1,19 @@
 import { gql } from '@apollo/client';
+import goodDataFragment from '../fragments/goodDataFragment';
 
 export const GET_ALL_GOODS = gql`
   query {
     getAllGoods {
-      id
-      name
-      price
-      rating
-      img
-      brandId
-      typeId
+      ...goodData
     }
   }
+  ${goodDataFragment}
 `;
 
 export const GET_ONE_GOOD = gql`
   query getOneGood($id: ID!) {
     getOneGood(id: $id) {
-      id
-      name
-      price
-      rating
-      img
-      brandId
-      typeId
+      ...goodData
       info {
         title
         description
@@ -31,4 +21,14 @@ export const GET_ONE_GOOD = gql`
       }
     }
   }
+  ${goodDataFragment}
+`;
+
+export const GET_GOODS_DATA_FOR_BASKET = gql`
+  query getGoodsDataForBasket($basketList: [BasketListInput]!) {
+    getGoodsDataForBasket(basketList: $basketList) {
+      ...goodData
+    }
+  }
+  ${goodDataFragment}
 `;

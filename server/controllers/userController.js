@@ -9,7 +9,7 @@ const generateToken = (id, email, role, expiresIn) => {
 };
 
 class UserController {
-  async registation(email, password, role) {
+  async registration(email, password, role) {
     if (!email || !password) {
       throw new Error('Некорректный email или пароль');
     }
