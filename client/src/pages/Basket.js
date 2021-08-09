@@ -25,7 +25,7 @@ const Basket = () => {
   );
 
   useEffect(() => {
-    const fetchDetails = () => {
+    const fetchDetails = async () => {
       const basketList = data.getAllBasketGoods.reduce(
         (arr, { id, goodId }) => {
           if (goodId) {
@@ -36,7 +36,7 @@ const Basket = () => {
         []
       );
 
-      getGoodsData({ variables: { basketList } });
+      await getGoodsData({ variables: { basketList } });
     };
 
     if (data) fetchDetails();

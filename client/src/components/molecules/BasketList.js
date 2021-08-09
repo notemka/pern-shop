@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { DELETE_FROM_BASKET } from '../../graphql/mutations/basket';
 import breakpoints from '../../styles/breakpoints';
@@ -35,15 +35,28 @@ const GoodItem = styled.li`
 `;
 
 const BasketList = ({ goods }) => {
+  const [goodsList, setGoodsList] = useState(goods);
   const [deleteFromBasket, { loading }] = useMutation(DELETE_FROM_BASKET);
+  const removeFromBasketList = async (id) => {
+    try {
+      await deleteFromBasket({ variables: { goodId: id } });
+      setGoodsList((list) => list.filter(({ id: goodId }) => +goodId !== +id));
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
-  if (!goods.length) {
+  useEffect(() => {
+    setGoodsList(goods);
+  }, [goods]);
+
+  if (!goodsList.length) {
     return <InfoText>Корзина пуста</InfoText>;
   }
 
   return (
     <ul>
-      {goods.map(({ id, name, price, img }) => {
+      {goodsList.map(({ id, name, price, img }) => {
         return (
           <GoodItem key={id}>
             <figure>
@@ -54,13 +67,7 @@ const BasketList = ({ goods }) => {
               {price} руб.
             </div>
 
-            <Button
-              onClick={() =>
-                deleteFromBasket({
-                  variables: { goodId: id },
-                })
-              }
-            >
+            <Button onClick={() => removeFromBasketList(id)}>
               {loading ? <Loader size="small" /> : 'Удалить'}
             </Button>
           </GoodItem>

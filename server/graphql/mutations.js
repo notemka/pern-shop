@@ -16,7 +16,7 @@ const mutations = `
     deleteBrand(id: ID!): Brand
 
     addToBasket(id: ID!): Basket
-    deleteFromBasket(goodId: ID!): Basket
+    deleteFromBasket(goodId: ID!): BasketGood
   }
 `;
 

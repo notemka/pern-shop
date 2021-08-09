@@ -1,4 +1,4 @@
-const { Basket, BasketGood, Good } = require('../models');
+const { Basket, BasketGood } = require('../models');
 
 class BasketController {
   async addToBasket(id, userId) {
