@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./"],
+      "alias": {
+        "components": "./src/components",
+        "hooks": "./src/hooks",
+        "contexts": "./src/contexts",
+        "graphql": "./src/graphql",
+        "styles": "./src/styles",
+        "utils": "./src/utils",
+      }
+    }]
+  ]
+}

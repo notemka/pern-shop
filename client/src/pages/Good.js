@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import MainTemplate from '../components/templates/MainTemplate';
+import MainTemplate from 'components/templates/MainTemplate';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Loader from '../components/atoms/Loader';
-import InfoText from '../components/atoms/InfoText';
-import GoodDetails from '../components/molecules/GoodDetails/';
+import Loader from 'components/atoms/Loader';
+import InfoText from 'components/atoms/InfoText';
+import GoodDetails from 'components/molecules/GoodDetails/';
 import { useQuery } from '@apollo/client';
-import { GET_ONE_GOOD } from '../graphql/queries/goods';
+import { GET_ONE_GOOD } from 'graphql/queries/goods';
 
 const StyledLink = styled(Link)`
   display: inline-block;
@@ -45,7 +45,7 @@ const Good = () => {
         ) : good ? (
           <GoodDetails good={good} />
         ) : (
-          <InfoText>{error ? error : 'Что-то пошло не так...'}</InfoText>
+          <InfoText>{error || 'Что-то пошло не так...'}</InfoText>
         )}
       </Wrapper>
     </MainTemplate>

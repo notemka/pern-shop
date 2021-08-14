@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import InfoText from 'components/atoms/InfoText';
+import breakpoints from 'styles/breakpoints';
 import GoodItem from './GoodItem';
-import InfoText from '../atoms/InfoText';
-import breakpoints from '../../styles/breakpoints';
 
 const List = styled.ul`
   display: grid;

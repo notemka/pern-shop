@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import MainTemplate from '../components/templates/MainTemplate';
-import GoodList from '../components/molecules/GoodList';
-import InfoText from '../components/atoms/InfoText';
-import SearchField from '../components/molecules/SearchField';
-import Loader from '../components/atoms/Loader';
-import { Context } from '../App';
+import MainTemplate from 'components/templates/MainTemplate';
+import GoodList from 'components/molecules/GoodList';
+import InfoText from 'components/atoms/InfoText';
+import SearchField from 'components/molecules/SearchField';
+import Loader from 'components/atoms/Loader';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_GOODS } from '../graphql/queries/goods';
+import { GET_ALL_GOODS } from 'graphql/queries/goods';
+import { Context } from 'App';
 
 const Goods = () => {
   const { goods, setGoods } = useContext(Context);
@@ -29,11 +29,7 @@ const Goods = () => {
         ) : goods.length ? (
           <GoodList goods={goods} />
         ) : (
-          <InfoText>
-            {error
-              ? error
-              : 'Товары отсутствуют, пожалуйста, обратитесь к администратору'}
-          </InfoText>
+          <InfoText>{error ? error : 'Товары отсутствуют, пожалуйста, обратитесь к администратору'}</InfoText>
         )}
       </div>
     </MainTemplate>

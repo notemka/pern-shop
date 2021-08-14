@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStyles from '../../styles/globalStyles';
-import Logo from '../atoms/Logo';
+import GlobalStyles from 'styles/globalStyles';
+import Logo from 'components/atoms/Logo';
 
 const AuthWrap = styled.div`
   display: flex;

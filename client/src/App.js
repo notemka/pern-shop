@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client';
-import { useEffect, useState, createContext, useMemo } from 'react';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 import Loader from './components/atoms/Loader';
 import { CHECK_USER } from './graphql/queries/user';
 import { authRoutes, publicRoutes, detailsRoutes, SHOP_ROUTE } from './routes';
-import jwt_decode from 'jwt-decode';
 
 export const Context = createContext({});
 
@@ -26,7 +26,7 @@ const App = () => {
       types,
       setTypes,
     }),
-    [user, setUser, goods, setGoods, brands, setBrands, types, setTypes]
+    [user, setUser, goods, setGoods, brands, setBrands, types, setTypes],
   );
 
   useEffect(() => {
@@ -47,11 +47,9 @@ const App = () => {
     <Context.Provider value={providerValue}>
       <Switch>
         {user
-          ? [...authRoutes(user), ...detailsRoutes].map(
-              ({ path, component }) => (
-                <Route key={path} path={path} component={component} exact />
-              )
-            )
+          ? [...authRoutes(user), ...detailsRoutes].map(({ path, component }) => (
+              <Route key={path} path={path} component={component} exact />
+            ))
           : [...publicRoutes, ...detailsRoutes].map(({ path, component }) => (
               <Route key={path} path={path} component={component} exact />
             ))}

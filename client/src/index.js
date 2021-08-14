@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ApolloClient, HttpLink, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import {
-  ApolloClient,
-  HttpLink,
-  ApolloProvider,
-  InMemoryCache,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
 
 const getHeaders = () => {
   const token = localStorage.getItem('accessToken');
@@ -26,14 +21,12 @@ const httpLink = new HttpLink({
   headers: getHeaders(),
 });
 
-const authLink = setContext((_, { headers }) => {
-  return {
-    headers: {
-      ...headers,
-      ...getHeaders(),
-    },
-  };
-});
+const authLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+    ...getHeaders(),
+  },
+}));
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
@@ -49,7 +42,7 @@ ReactDOM.render(
       <App />
     </Router>
   </ApolloProvider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

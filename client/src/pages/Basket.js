@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
-import Loader from '../components/atoms/Loader';
-import BasketList from '../components/molecules/BasketList';
-import MainTemplate from '../components/templates/MainTemplate';
-import { GET_ALL_BASKET_GOODS } from '../graphql/queries/basket';
-import { Context } from '../App';
-import { GET_GOODS_DATA_FOR_BASKET } from '../graphql/queries/goods';
+import Loader from 'components/atoms/Loader';
+import BasketList from 'components/molecules/BasketList';
+import MainTemplate from 'components/templates/MainTemplate';
+import { GET_ALL_BASKET_GOODS } from 'graphql/queries/basket';
+import { Context } from 'App';
+import { GET_GOODS_DATA_FOR_BASKET } from 'graphql/queries/goods';
 
 const Basket = () => {
   const [goodList, setGoodList] = useState([]);
@@ -14,29 +14,23 @@ const Basket = () => {
     variables: { id: user.id },
   });
   const onCompleted = (goods) => {
-    const goodList = goods?.getGoodsDataForBasket;
+    const list = goods?.getGoodsDataForBasket;
     if (goodList) {
-      setGoodList(goodList);
+      setGoodList(list);
     }
   };
-  const [getGoodsData, { loading: goodsLoading }] = useLazyQuery(
-    GET_GOODS_DATA_FOR_BASKET,
-    { onCompleted }
-  );
+  const [getGoodsData, { loading: goodsLoading }] = useLazyQuery(GET_GOODS_DATA_FOR_BASKET, { onCompleted });
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const basketList = data.getAllBasketGoods.reduce(
-        (arr, { id, goodId }) => {
-          if (goodId) {
-            arr.push({ id, goodId });
-          }
-          return arr;
-        },
-        []
-      );
+      const basketList = data.getAllBasketGoods.reduce((arr, { id, goodId }) => {
+        if (goodId) {
+          arr.push({ id, goodId });
+        }
+        return arr;
+      }, []);
 
-      await getGoodsData({ variables: { basketList } });
+      getGoodsData({ variables: { basketList } });
     };
 
     if (data) fetchDetails();

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Form from '../atoms/Form';
-import Input from '../atoms/Input';
-import Button from '../atoms/buttons/Button';
-import { LOGIN_ROUTE, SHOP_ROUTE } from '../../routes';
+import Form from 'components/atoms/Form';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import { LOGIN_ROUTE, SHOP_ROUTE } from 'routes';
 import { Context } from '../../App';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, REGISTER_USER } from '../../graphql/mutations/user';
@@ -27,9 +27,7 @@ const AuthForm = () => {
   const [password, setPassword] = useState('');
   const fetchQuery = isLoginPage ? LOGIN_USER : REGISTER_USER;
 
-  const variables = isLoginPage
-    ? { email, password }
-    : { email, password, role: 'USER' };
+  const variables = isLoginPage ? { email, password } : { email, password, role: 'USER' };
 
   const [getUser, { loading }] = useMutation(fetchQuery, {
     onCompleted: (data) => {
@@ -60,31 +58,12 @@ const AuthForm = () => {
     return setPassword(value);
   };
   return (
-    <Form
-      onSubmit={onSubmit}
-      data-testid={`test-${pageName.toLowerCase()}-form`}
-    >
-      <Input
-        type="email"
-        label="Email"
-        name="email"
-        value={email}
-        onChange={onChange}
-      />
-      <Input
-        type="password"
-        label="Password"
-        name="password"
-        value={password}
-        onChange={onChange}
-      />
+    <Form onSubmit={onSubmit} data-testid={`test-${pageName.toLowerCase()}-form`}>
+      <Input type="email" label="Email" name="email" value={email} onChange={onChange} />
+      <Input type="password" label="Password" name="password" value={password} onChange={onChange} />
 
       <FieldActions>
-        {pageName === 'Login' ? (
-          <Link to="/registration">Registration</Link>
-        ) : (
-          <Link to="/login">Login</Link>
-        )}
+        {pageName === 'Login' ? <Link to="/registration">Registration</Link> : <Link to="/login">Login</Link>}
         <Button type="submit">{pageName}</Button>
       </FieldActions>
     </Form>

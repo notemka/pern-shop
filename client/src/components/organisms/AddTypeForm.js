@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Form from '../atoms/Form';
-import Input from '../atoms/Input';
-import Button from '../atoms/buttons/Button';
-import Loader from '../atoms/Loader';
+import Form from 'components/atoms/Form';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import Loader from 'components/atoms/Loader';
 import { useMutation } from '@apollo/client';
 import { CREATE_TYPE } from '../../graphql/mutations/type';
 
@@ -26,11 +26,7 @@ const AddTypeForm = () => {
 
   return (
     <Form onSubmit={addNewType}>
-      <Input
-        label="Наименование категории"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-      />
+      <Input label="Наименование категории" value={type} onChange={(e) => setType(e.target.value)} />
       <Button type="submit" disabled={!type || loading}>
         {loading ? <Loader size="small" /> : 'Добавить категорию'}
       </Button>

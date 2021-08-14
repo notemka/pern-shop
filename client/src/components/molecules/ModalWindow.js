@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import RoundButton from '../atoms/buttons/RoundButton';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -42,18 +42,16 @@ const StyledButton = styled(RoundButton)`
   transform: translate(20%, -20%);
 `;
 
-const ModalWindow = ({ closeModal, children }) => {
-  return (
-    <Wrapper>
-      <Overlay onClick={closeModal} />
-      <Dialog>
-        <StyledButton onClick={closeModal}>
-          <FontAwesomeIcon icon={faTimes} />
-        </StyledButton>
-        {children}
-      </Dialog>
-    </Wrapper>
-  );
-};
+const ModalWindow = ({ closeModal, children }) => (
+  <Wrapper>
+    <Overlay onClick={closeModal} />
+    <Dialog>
+      <StyledButton onClick={closeModal}>
+        <FontAwesomeIcon icon={faTimes} />
+      </StyledButton>
+      {children}
+    </Dialog>
+  </Wrapper>
+);
 
 export default ModalWindow;

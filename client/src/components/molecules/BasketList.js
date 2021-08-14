@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { DELETE_FROM_BASKET } from '../../graphql/mutations/basket';
-import breakpoints from '../../styles/breakpoints';
-import Button from '../atoms/buttons/Button';
-import InfoText from '../atoms/InfoText';
-import Loader from '../atoms/Loader';
+import { DELETE_FROM_BASKET } from 'graphql/mutations/basket';
+import breakpoints from 'styles/breakpoints';
+import Button from 'components/atoms/buttons/Button';
+import InfoText from 'components/atoms/InfoText';
+import Loader from 'components/atoms/Loader';
 
 const GoodItem = styled.li`
   display: grid;
@@ -56,23 +56,19 @@ const BasketList = ({ goods }) => {
 
   return (
     <ul>
-      {goodsList.map(({ id, name, price, img }) => {
-        return (
-          <GoodItem key={id}>
-            <figure>
-              <img src={process.env.REACT_APP_API_URL + img} alt={name} />
-            </figure>
-            <div>
-              <h3>{name}</h3>
-              {price} руб.
-            </div>
+      {goodsList.map(({ id, name, price, img }) => (
+        <GoodItem key={id}>
+          <figure>
+            <img src={process.env.REACT_APP_API_URL + img} alt={name} />
+          </figure>
+          <div>
+            <h3>{name}</h3>
+            {price} руб.
+          </div>
 
-            <Button onClick={() => removeFromBasketList(id)}>
-              {loading ? <Loader size="small" /> : 'Удалить'}
-            </Button>
-          </GoodItem>
-        );
-      })}
+          <Button onClick={() => removeFromBasketList(id)}>{loading ? <Loader size="small" /> : 'Удалить'}</Button>
+        </GoodItem>
+      ))}
     </ul>
   );
 };

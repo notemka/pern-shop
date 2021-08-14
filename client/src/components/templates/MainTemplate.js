@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStyles from '../../styles/globalStyles';
-import breakpoints from '../../styles/breakpoints';
+import GlobalStyles from 'styles/globalStyles';
+import breakpoints from 'styles/breakpoints';
 import Header from '../organisms/Header';
 
 const Container = styled.main`

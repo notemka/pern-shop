@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import RoundButton from '../components/atoms/buttons/RoundButton';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import Loader from '../components/atoms/Loader';
-import MainTemplate from '../components/templates/MainTemplate';
-import breakpoints from '../styles/breakpoints';
+import Loader from 'components/atoms/Loader';
+import MainTemplate from 'components/templates/MainTemplate';
+import breakpoints from 'styles/breakpoints';
 
 import { useQuery } from '@apollo/client';
-import { GET_ALL_BRANDS } from '../graphql/queries/brand';
-import { GET_ALL_TYPES } from '../graphql/queries/type';
-import useTypeBrandActions from '../hooks/useTypeBrandActions';
+import { GET_ALL_BRANDS } from 'graphql/queries/brand';
+import { GET_ALL_TYPES } from 'graphql/queries/type';
+import useTypeBrandActions from 'hooks/useTypeBrandActions';
 
 const List = styled.ul`
   max-width: 900px;
@@ -52,7 +52,7 @@ const AdminPanelList = () => {
     if (!loading) {
       setDataList(isTypesList ? data.getAllTypes : data.getAllBrands);
     }
-  }, [data]);
+  }, [loading, isTypesList, data]);
 
   return (
     <MainTemplate>
@@ -62,25 +62,20 @@ const AdminPanelList = () => {
           <Loader />
         ) : (
           <List>
-            {dataList.map(({ id, name }) => {
-              return (
-                <Item key={id}>
-                  <span>{name}</span>
+            {dataList.map(({ id, name }) => (
+              <Item key={id}>
+                <span>{name}</span>
 
-                  <Actions>
-                    <RoundButton
-                      title="Редактировать"
-                      onClick={() => editItem({ id, name })}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </RoundButton>
-                    <RoundButton title="Удалить" onClick={() => removeItem(id)}>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </RoundButton>
-                  </Actions>
-                </Item>
-              );
-            })}
+                <Actions>
+                  <RoundButton title="Редактировать" onClick={() => editItem({ id, name })}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </RoundButton>
+                  <RoundButton title="Удалить" onClick={() => removeItem(id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </RoundButton>
+                </Actions>
+              </Item>
+            ))}
           </List>
         )}
       </div>

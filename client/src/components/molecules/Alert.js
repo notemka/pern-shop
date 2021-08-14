@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import RoundButton from '../atoms/buttons/RoundButton';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 
 const AlertList = styled.ul`
   position: fixed;
@@ -73,9 +73,7 @@ const Alert = () => {
       {alerts.map((alert) => (
         <AlertItem className={alert.type ? alert.type : ''}>
           <span>{alert.text}</span>
-          <StyledButton onClick={() => hideAlertMessage(alert.id)}>
-            &times;
-          </StyledButton>
+          <StyledButton onClick={() => hideAlertMessage(alert.id)}>&times;</StyledButton>
         </AlertItem>
       ))}
     </AlertList>

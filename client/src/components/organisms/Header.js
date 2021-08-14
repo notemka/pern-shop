@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../atoms/Logo';
-import Navigation from '../molecules/Navigation';
+import Logo from 'components/atoms/Logo';
+import Navigation from 'components/molecules/Navigation';
 
 const StyledHeader = styled.header`
   display: flex;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import FieldWrapper from '../atoms/FieldWrapper';
-import Label from '../atoms/Label';
+import FieldWrapper from 'components/atoms/FieldWrapper';
+import Label from 'components/atoms/Label';
 
 const StyledSelect = styled(Select)`
   > div {

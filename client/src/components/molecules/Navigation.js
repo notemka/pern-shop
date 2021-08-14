@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../atoms/buttons/Button';
+import Button from 'components/atoms/buttons/Button';
 import NavigationList from './NavigationList';
-import breakpoints from '../../styles/breakpoints';
+import breakpoints from 'styles/breakpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 

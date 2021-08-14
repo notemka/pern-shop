@@ -11,10 +11,10 @@ class TypeController {
     return types;
   }
 
-  async update(data) {
+  async update({ id, name }) {
     console.log(data);
     try {
-      await Type.update(data, { where: { id: data.id } }, { returning: true });
+      await Type.update(data, { where: { id, name } }, { returning: true });
       return 'Success';
     } catch (error) {
       throw new Error(error);

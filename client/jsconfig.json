@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "components/*": ["./src/components/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "graphql/*": ["./src/graphql/*"],
+      "contexts/*": ["./src/contexts/*"],
+      "styles/*": ["./src/styles/*"],
+      "utils/*": ["./src/utils/*"],
+    }
+  },
+  "exclude": ["node_modules", "build", "dist"],
+}

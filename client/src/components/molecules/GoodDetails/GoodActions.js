@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import breakpoints from '../../../styles/breakpoints';
-import { Context } from '../../../App';
+import breakpoints from 'styles/breakpoints';
 
-import Button from '../../atoms/buttons/Button';
-import useGoodActions from '../../../hooks/useGoodActions';
+import Button from 'components/molecules/buttons/Button';
+import useGoodActions from 'hooks/useGoodActions';
+import { Context } from '../../../App';
 
 const Actions = styled.div`
   display: grid;
@@ -27,9 +27,7 @@ const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
     <Actions>
       {user?.role === 'ADMIN' && (
         <>
-          <Button onClick={() => setIsEditMode((mode) => !mode)}>
-            {isEditMode ? 'Отменить' : 'Редактировать'}
-          </Button>
+          <Button onClick={() => setIsEditMode((mode) => !mode)}>{isEditMode ? 'Отменить' : 'Редактировать'}</Button>
           <Button onClick={() => removeGood(goodId)}>Удалить</Button>
         </>
       )}
