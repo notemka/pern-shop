@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
-import Loader from 'components/atoms/Loader';
-import BasketList from 'components/molecules/BasketList';
-import MainTemplate from 'components/templates/MainTemplate';
-import { GET_ALL_BASKET_GOODS } from 'graphql/queries/basket';
+
 import { Context } from 'App';
+import GET_ALL_BASKET_GOODS from 'graphql/queries/basket';
 import { GET_GOODS_DATA_FOR_BASKET } from 'graphql/queries/goods';
 
+import MainTemplate from 'components/templates/MainTemplate';
+import Loader from 'components/atoms/Loader';
+import BasketList from 'components/molecules/BasketList';
+
 const Basket = () => {
-  const [goodList, setGoodList] = useState([]);
   const { user } = useContext(Context);
-  const { data, loading, error } = useQuery(GET_ALL_BASKET_GOODS, {
-    variables: { id: user.id },
-  });
+  const { data, loading, error } = useQuery(GET_ALL_BASKET_GOODS, { variables: { id: user.id } });
+  const [goodList, setGoodList] = useState([]);
+
   const onCompleted = (goods) => {
     const list = goods?.getGoodsDataForBasket;
     if (goodList) {

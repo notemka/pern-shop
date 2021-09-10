@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_ALL_BRANDS = gql`
+const GET_ALL_BRANDS = gql`
   query {
     getAllBrands {
       id
@@ -8,3 +8,4 @@ export const GET_ALL_BRANDS = gql`
     }
   }
 `;
+export default GET_ALL_BRANDS;

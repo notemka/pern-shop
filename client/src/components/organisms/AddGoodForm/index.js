@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { CREATE_GOOD, UPDATE_GOOD } from '../../../graphql/mutations/good';
-import Form from 'components/molecules/Form';
-import Input from 'components/molecules/Input';
-import Button from 'components/molecules/buttons/Button';
-import Loader from 'components/molecules/Loader';
-import CategorySelect from 'components/molecules/CategorySelect';
-import GoodInfoFields from './GoodInfoFields';
+import { CREATE_GOOD, UPDATE_GOOD } from 'graphql/mutations/good';
 import useFetchTypesBrands from 'hooks/useFetchTypesBrands';
+
+import CategorySelect from 'components/molecules/CategorySelect';
+import Form from 'components/atoms/Form';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import Loader from 'components/atoms/Loader';
+import GoodInfoFields from './GoodInfoFields';
 
 const AddGoodForm = ({ data, isEditMode }) => {
   const initialFields = {

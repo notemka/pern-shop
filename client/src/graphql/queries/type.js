@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_ALL_TYPES = gql`
+const GET_ALL_TYPES = gql`
   query {
     getAllTypes {
       id
@@ -8,3 +8,5 @@ export const GET_ALL_TYPES = gql`
     }
   }
 `;
+
+export default GET_ALL_TYPES;

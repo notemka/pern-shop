@@ -3,7 +3,7 @@ import { DELETE_BRAND, UPDATE_BRAND } from 'graphql/mutations/brand';
 import { DELETE_TYPE, UPDATE_TYPE } from 'graphql/mutations/type';
 
 const useTypeBrandActions = (listName) => {
-  const isType = listName == 'Категория';
+  const isType = listName === 'Категория';
   const deleteMutation = isType ? DELETE_TYPE : DELETE_BRAND;
   const updateMutation = isType ? UPDATE_TYPE : UPDATE_BRAND;
   const [deleteItem, { loading: deleteLoading }] = useMutation(deleteMutation);

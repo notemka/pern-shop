@@ -1,10 +1,10 @@
-import Good from './pages/Good';
-import Auth from './pages/Auth';
-import Basket from './pages/Basket';
-import Goods from './pages/Goods';
-import Admin from './pages/Admin';
-import Favorites from './pages/Favorites';
-import AdminPanelList from './pages/AdminPanelList';
+import Good from 'pages/Good';
+import Auth from 'pages/Auth';
+import Basket from 'pages/Basket';
+import Goods from 'pages/Goods';
+import Admin from 'pages/Admin';
+import Favorites from 'pages/Favorites';
+import AdminPanelList from 'pages/AdminPanelList';
 
 export const REGISTRATION_ROUTE = '/registration';
 export const LOGIN_ROUTE = '/login';
@@ -58,8 +58,7 @@ export const adminRoutes = [
   },
 ];
 
-export const authRoutes = (user) =>
-  user?.role === 'ADMIN' ? adminRoutes : userRoutes;
+export const authRoutes = (user) => (user?.role === 'ADMIN' ? adminRoutes : userRoutes);
 
 export const publicRoutes = [
   ...commonRoutes,

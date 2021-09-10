@@ -1,11 +1,13 @@
 import React from 'react';
-import FieldWrapper from 'components/molecules/FieldWrapper';
-import Input from 'components/molecules/Input';
-import Button from 'components/molecules/buttons/Button';
-import RoundButton from 'components/molecules/buttons/RoundButton';
+import styled from 'styled-components';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
+
+import FieldWrapper from 'components/atoms/FieldWrapper';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/buttons/Button';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 
 const StyledButton = styled(Button)`
   margin-bottom: 20px;

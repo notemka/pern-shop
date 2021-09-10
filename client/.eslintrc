@@ -49,12 +49,14 @@
     "max-len": 0,
     "camelcase": "off",
     "no-unused-expressions": "warn",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-restricted-imports": [0, { "patterns": ["../*"] }]
   },
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["./"],
+        "moduleDirectory": ["./", "./src", "node_modules"],
+        "paths": ["./src"]
       }
     }
   }

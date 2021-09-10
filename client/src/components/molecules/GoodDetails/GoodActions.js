@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import breakpoints from 'styles/breakpoints';
 
-import Button from 'components/molecules/buttons/Button';
+import { Context } from 'App';
 import useGoodActions from 'hooks/useGoodActions';
-import { Context } from '../../../App';
+import Button from 'components/atoms/buttons/Button';
 
 const Actions = styled.div`
   display: grid;

@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const CHECK_USER = gql`
+const CHECK_USER = gql`
   query {
     checkUserAccess {
       token
     }
   }
 `;
+
+export default CHECK_USER;

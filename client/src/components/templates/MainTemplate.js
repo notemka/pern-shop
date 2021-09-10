@@ -17,15 +17,13 @@ const Container = styled.main`
   }
 `;
 
-const MainTemplate = ({ children }) => {
-  return (
-    <>
-      <GlobalStyles />
+const MainTemplate = ({ children }) => (
+  <>
+    <GlobalStyles />
 
-      <Header />
-      <Container>{children}</Container>
-    </>
-  );
-};
+    <Header />
+    <Container>{children}</Container>
+  </>
+);
 
 export default MainTemplate;

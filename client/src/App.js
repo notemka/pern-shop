@@ -1,10 +1,12 @@
-import { useQuery } from '@apollo/client';
 import React, { useEffect, useState, createContext, useMemo } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import Loader from './components/atoms/Loader';
-import { CHECK_USER } from './graphql/queries/user';
-import { authRoutes, publicRoutes, detailsRoutes, SHOP_ROUTE } from './routes';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
+import { useQuery } from '@apollo/client';
+import CHECK_USER from 'graphql/queries/user';
+
+import Loader from 'components/atoms/Loader';
+import { authRoutes, publicRoutes, detailsRoutes, SHOP_ROUTE } from 'routes';
 
 export const Context = createContext({});
 
@@ -35,7 +37,7 @@ const App = () => {
         checkUserAccess: { token },
       } = data;
 
-      token && setUser(jwt_decode(token));
+      if (token) setUser(jwt_decode(token));
     }
   }, [data]);
 

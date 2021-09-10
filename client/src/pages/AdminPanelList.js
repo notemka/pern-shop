@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
 import styled from 'styled-components';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { useParams } from 'react-router-dom';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import Loader from 'components/atoms/Loader';
-import MainTemplate from 'components/templates/MainTemplate';
-import breakpoints from 'styles/breakpoints';
 
 import { useQuery } from '@apollo/client';
-import { GET_ALL_BRANDS } from 'graphql/queries/brand';
-import { GET_ALL_TYPES } from 'graphql/queries/type';
+import GET_ALL_BRANDS from 'graphql/queries/brand';
+import GET_ALL_TYPES from 'graphql/queries/type';
 import useTypeBrandActions from 'hooks/useTypeBrandActions';
+
+import MainTemplate from 'components/templates/MainTemplate';
+import RoundButton from 'components/atoms/buttons/RoundButton';
+import Loader from 'components/atoms/Loader';
+import breakpoints from 'styles/breakpoints';
 
 const List = styled.ul`
   max-width: 900px;
@@ -44,6 +46,7 @@ const AdminPanelList = () => {
   const listItemName = isTypesList ? 'Категория' : 'Бренд';
   const listName = isTypesList ? 'Категории' : 'Бренды';
   const [dataList, setDataList] = useState([]);
+
   const fetchQuery = isTypesList ? GET_ALL_TYPES : GET_ALL_BRANDS;
   const { data, loading } = useQuery(fetchQuery);
   const { editItem, removeItem } = useTypeBrandActions(listItemName);

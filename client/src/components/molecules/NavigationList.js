@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { NavLink, useHistory } from 'react-router-dom';
+import { LOGIN_ROUTE, publicRoutes, authRoutes } from 'routes';
+
+import { Context } from 'App';
 import Button from 'components/atoms/buttons/Button';
 import breakpoints from 'styles/breakpoints';
-import { LOGIN_ROUTE, publicRoutes, authRoutes } from 'routes';
-import { Context } from '../../App';
 
 const NavList = styled.ul`
   display: flex;

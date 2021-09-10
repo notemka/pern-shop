@@ -1,7 +1,9 @@
-import { useMutation } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import { useMutation } from '@apollo/client';
 import { DELETE_FROM_BASKET } from 'graphql/mutations/basket';
+
 import breakpoints from 'styles/breakpoints';
 import Button from 'components/atoms/buttons/Button';
 import InfoText from 'components/atoms/InfoText';

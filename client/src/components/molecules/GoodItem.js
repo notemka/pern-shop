@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { GOOD_ROUTE } from 'routes';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTools, faHeart, faTrash, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+
+import { Context } from 'App';
 import useGoodActions from 'hooks/useGoodActions';
-import { Context } from '../../App';
+import RoundButton from 'components/atoms/buttons/RoundButton';
 
 const Wrapper = styled.article`
   display: flex;

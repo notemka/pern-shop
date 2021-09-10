@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Input from 'components/atoms/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
+import Input from 'components/atoms/Input';
 
 const SearchWrapper = styled.div`
   display: flex;
