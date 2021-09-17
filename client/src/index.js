@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ApolloClient, HttpLink, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from '@apollo/client/link/context';
 
 import App from 'App';
@@ -16,7 +17,7 @@ const getHeaders = () => {
   return headers;
 };
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
   uri: process.env.REACT_APP_API_URL + 'graphql',
   fetch,
   headers: getHeaders(),

@@ -35,14 +35,10 @@ const resolvers = {
   getAllBrands: async () => await brandController.getAll(),
   getAllBasketGoods: async ({ id }) => await basketController.getAll(id),
 
-  registerUser: async ({ email, password, role }) =>
-    await userController.registration(email, password, role),
-  loginUser: async ({ email, password }) =>
-    await userController.login(email, password),
+  registerUser: async ({ email, password, role }) => await userController.registration(email, password, role),
+  loginUser: async ({ email, password }) => await userController.login(email, password),
 
   createGood: async ({ input }, context) => {
-    console.log('input:', input);
-    console.log('context.req.files:', context.req.files);
     // checkRoleMiddleware(context.req.user);
     return await goodController.create(input, context.req, context.res);
   },

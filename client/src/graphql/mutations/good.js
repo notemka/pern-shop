@@ -6,21 +6,13 @@ export const CREATE_GOOD = gql`
     $name: String!
     $price: Float!
     $rating: Int
-    $img: Upload
+    $img: Upload!
     $typeId: ID!
     $brandId: ID!
     $info: String
   ) {
     createGood(
-      input: {
-        name: $name
-        price: $price
-        rating: $rating
-        img: $img
-        typeId: $typeId
-        brandId: $brandId
-        info: $info
-      }
+      input: { name: $name, price: $price, rating: $rating, img: $img, typeId: $typeId, brandId: $brandId, info: $info }
     ) {
       ...goodData
       info {
@@ -37,8 +29,8 @@ export const UPDATE_GOOD = gql`
     $id: ID!
     $name: String!
     $price: Float!
-    $rating: Int
-    $img: Upload
+    $rating: Int!
+    $img: Upload!
     $brandId: ID!
     $typeId: ID!
     $info: String
@@ -56,7 +48,10 @@ export const UPDATE_GOOD = gql`
       }
     ) {
       ...goodData
-      info
+      info {
+        title
+        description
+      }
     }
   }
   ${goodDataFragment}

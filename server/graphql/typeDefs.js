@@ -1,5 +1,3 @@
-const { Upload } = require('graphql-upload');
-
 const typeDefs = `
   scalar Upload
 
@@ -35,7 +33,7 @@ const typeDefs = `
     name: String
     price: Float
     rating: Int
-    img: Upload
+    img: String
     typeId: ID
     brandId: ID
     info: [GoodInfo]

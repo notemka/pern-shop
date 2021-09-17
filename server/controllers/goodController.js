@@ -1,22 +1,27 @@
 const uuid = require('uuid');
 const path = require('path');
+const fs = require('fs');
 const { Good, GoodInfo } = require('../models');
 
 class GoodController {
-  async create(data, req) {
+  async saveImage({ file }) {
+    const { createReadStream } = await file;
+    const imgName = `${uuid.v4()}.jpg`;
+    const imageLocation = path.join(__dirname, `../static/${imgName}`);
+    const stream = createReadStream();
+    await stream.pipe(fs.createWriteStream(imageLocation));
+    return imgName;
+  }
+
+  async create(data) {
     try {
       const { name, price, brandId, typeId, info, img } = data;
-      // console.log('data:', data);
-      // console.log('req.files:', req.files);
+      const imgName = await this.saveImage(img);
 
-      const fileName = `${uuid.v4()}.jpg`;
-      // path.resolve() - адаптирует указанный путь к ОС
-      // параметр '..' переход на папку выше
-      // img.mv(path.resolve(__dirname, '..', 'static', fileName));
       const good = await Good.create({
         name,
         price,
-        img: fileName,
+        img: imgName,
         brandId,
         typeId,
       });
@@ -65,9 +70,7 @@ class GoodController {
   }
 
   async getSomeGoods(idsArray) {
-    const goods = await Promise.all(
-      idsArray.map(async (id) => await Good.findOne({ where: { id } }))
-    );
+    const goods = await Promise.all(idsArray.map(async (id) => await Good.findOne({ where: { id } })));
     return goods;
   }
 
@@ -81,10 +84,17 @@ class GoodController {
 
   async delete(id) {
     try {
-      await Good.destroy({
-        where: { id },
-        include: [{ model: GoodInfo, as: 'info' }],
-      });
+      const good = await Good.findOne({ where: { id } });
+      const { img: goodImage } = good || {};
+      if (goodImage) {
+        fs.unlink(path.join(__dirname, `../static/${goodImage}`), (err) => {
+          if (err) console.error(err);
+        });
+      }
+
+      await GoodInfo.destroy({ where: { goodId: id } });
+      await Good.destroy({ where: { id } });
+
       return 'Success';
     } catch (error) {
       throw new Error(error);
@@ -92,29 +102,25 @@ class GoodController {
   }
 
   async update(data) {
-    const { id, infoTitle, infoDescription } = data;
+    const { id, info, img } = data;
+    let updatedData = { ...data };
+    const isImageChanged = typeof img !== 'string';
+
+    if (isImageChanged) {
+      updatedData.img = await this.saveImage(img);
+    }
 
     try {
-      await Good.update(
-        data,
-        { where: { id } },
-        { returning: true, include: [{ model: GoodInfo, as: 'info' }] }
-      );
+      const updatedGood = await Good.update({ ...updatedData }, { where: { id }, returning: true });
 
-      if (data.info.length) {
+      if (info.length) {
         const infoArray = JSON.parse(info);
         await infoArray.map(async ({ title, description }) => {
-          await GoodInfo.update(
-            {
-              title: infoTitle,
-              description: infoDescription,
-            },
-            { where: { goodId: id } }
-          );
+          await GoodInfo.update({ title, description }, { where: { goodId: id }, returning: true });
         });
       }
 
-      return 'Success';
+      return updatedGood;
     } catch (error) {
       throw new Error(error);
     }

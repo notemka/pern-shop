@@ -16,7 +16,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
     brand: data?.brandId || '',
     type: data?.typeId || '',
     price: data?.price || 0,
-    raiting: data?.raiting || 0,
+    rating: data?.rating || 0,
     img: data?.img || {},
     info: data?.info || [],
   };
@@ -25,7 +25,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
     initialFields.id = data.id;
   }
   const [goodFields, setGoodFields] = useState(initialFields);
-  const { name, brand, type, price, raiting, img, info } = goodFields;
+  const { name, brand, type, price, rating, img, info } = goodFields;
   const { brands, types, typesBrandsLoading } = useFetchTypesBrands();
 
   const [brandValue, setBrandValue] = useState(brands[0]);
@@ -76,7 +76,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
 
   const resetFields = () => {
     setGoodFields((fields) => {
-      let emptyFields = {};
+      const emptyFields = {};
 
       Object.keys(fields).map((key) => {
         emptyFields[key] = initialFields[key];
@@ -91,27 +91,18 @@ const AddGoodForm = ({ data, isEditMode }) => {
     e.preventDefault();
 
     try {
-      // const formData = new FormData();
-      // formData.append('name', name);
-      // formData.append('brandId', brand.id);
-      // formData.append('typeId', type.id);
-      // formData.append('price', +price);
-      // formData.append('raiting', +raiting || 0);
-      // formData.append('img', img);
-      // formData.append('info', JSON.stringify(info));
-
       const formData = {
         name,
         brandId: brand.id,
         typeId: type.id,
         price: +price,
-        raiting: +raiting || 0,
+        rating: +rating || 0,
         img,
         info: JSON.stringify(info),
       };
 
       let message;
-      console.log(formData);
+
       if (isEditMode) {
         await updateGood({
           variables: { ...formData, id: initialFields.id },

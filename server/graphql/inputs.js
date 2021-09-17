@@ -10,18 +10,12 @@ const inputs = `
     description: String!
   }
 
-  input FileInput {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-  }
-
   input GoodInput {
     id: ID
     name: String!
     price: Float!
     rating: Int
-    img: Upload
+    img: Upload!
     typeId: ID!
     brandId: ID!
     info: String
@@ -32,7 +26,7 @@ const inputs = `
     name: String!
     price: Float!
     rating: Int!
-    img: Upload
+    img: Upload!
     typeId: ID!
     brandId: ID!
     info: String
