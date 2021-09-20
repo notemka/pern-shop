@@ -16,6 +16,7 @@ export const CREATE_GOOD = gql`
     ) {
       ...goodData
       info {
+        id
         title
         description
       }
@@ -49,6 +50,7 @@ export const UPDATE_GOOD = gql`
     ) {
       ...goodData
       info {
+        id
         title
         description
       }

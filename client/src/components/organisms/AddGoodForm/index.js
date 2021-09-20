@@ -13,8 +13,8 @@ import GoodInfoFields from './GoodInfoFields';
 const AddGoodForm = ({ data, isEditMode }) => {
   const initialFields = {
     name: data?.name || '',
-    brand: data?.brandId || '',
-    type: data?.typeId || '',
+    brandId: data?.brandId || '',
+    typeId: data?.typeId || '',
     price: data?.price || 0,
     rating: data?.rating || 0,
     img: data?.img || {},
@@ -25,18 +25,21 @@ const AddGoodForm = ({ data, isEditMode }) => {
     initialFields.id = data.id;
   }
   const [goodFields, setGoodFields] = useState(initialFields);
-  const { name, brand, type, price, rating, img, info } = goodFields;
+  const { name, brandId, typeId, price, rating, img, info } = goodFields;
   const { brands, types, typesBrandsLoading } = useFetchTypesBrands();
 
-  const [brandValue, setBrandValue] = useState(brands[0]);
-  const [typeValue, setTypeValue] = useState(types[0]);
+  const [brand, setBrand] = useState({});
+  const [type, setType] = useState({});
 
   useEffect(() => {
     if (isEditMode) {
-      setTypeValue(types.find(({ id }) => id === goodFields.type));
-      setBrandValue(brands.find(({ id }) => id === goodFields.brand));
+      setType(types.find(({ value }) => value === typeId));
+      setBrand(brands.find(({ value }) => value === brandId));
+    } else {
+      setType(types[0]);
+      setBrand(brands[0]);
     }
-  }, [isEditMode, types, brands, goodFields]);
+  }, [isEditMode, types, brands]);
 
   const [createGood, { loading: createLoading }] = useMutation(CREATE_GOOD);
   const [updateGood, { loading: updateLoading }] = useMutation(UPDATE_GOOD);
@@ -44,11 +47,9 @@ const AddGoodForm = ({ data, isEditMode }) => {
 
   const changeFieldValue = (obj) => setGoodFields((fields) => ({ ...fields, ...obj }));
 
-  const onChange = (selectName, option) => {
-    if (selectName === 'brands') {
-      return changeFieldValue({ brand: option });
-    }
-    return changeFieldValue({ type: option });
+  const onChange = (selectName, value) => {
+    const key = selectName === 'brands' ? 'brandId' : 'typeId';
+    return changeFieldValue({ [key]: value });
   };
 
   const onFileChange = (event) => changeFieldValue({ img: event.target.files[0] });
@@ -93,24 +94,20 @@ const AddGoodForm = ({ data, isEditMode }) => {
     try {
       const formData = {
         name,
-        brandId: brand.id,
-        typeId: type.id,
+        brandId,
+        typeId,
         price: +price,
         rating: +rating || 0,
         img,
         info: JSON.stringify(info),
       };
-
-      let message;
+      console.log(info);
+      const message = isEditMode ? `Товар ${name} обнавлен` : `Новый товар ${name} добавлен`;
 
       if (isEditMode) {
-        await updateGood({
-          variables: { ...formData, id: initialFields.id },
-        });
-        message = `Товар ${name} обнавлен`;
+        await updateGood({ variables: { ...formData, id: initialFields.id } });
       } else {
         await createGood({ variables: formData });
-        message = `Новый товар ${name} добавлен`;
       }
 
       resetFields();
@@ -130,15 +127,15 @@ const AddGoodForm = ({ data, isEditMode }) => {
             label="Категории"
             name="categories"
             options={types}
-            value={typeValue}
-            onChange={(option) => onChange('categories', option)}
+            value={type}
+            onChange={({ value }) => onChange('categories', value)}
           />
           <CategorySelect
             label="Бренды"
             name="brands"
             options={brands}
-            value={brandValue}
-            onChange={(option) => onChange('brands', option)}
+            value={brand}
+            onChange={({ value }) => onChange('brands', value)}
           />
 
           <Input

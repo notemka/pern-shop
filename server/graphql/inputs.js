@@ -6,8 +6,10 @@ const inputs = `
   }
 
   input GoodInfoInput {
+    id: ID!
     title: String!
     description: String!
+    goodId: ID!
   }
 
   input GoodInput {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 
@@ -29,65 +29,42 @@ const themeOptions = (theme) => ({
   },
 });
 
-const CategorySelect = ({ options, label, name, onChange, value }) => {
-  const optionsList = options.map((option) => ({
-    value: option.name,
-    label: option.name,
-    id: option.id,
-  }));
-
-  const usedValue = value
-    ? {
-        value: value.name,
-        label: value.name,
-        id: value.id,
-      }
-    : optionsList[0];
-
-  const [currentValue, setCurrentValue] = useState(usedValue);
-  const selectId = name;
-
-  const customStyles = {
-    container: (styles) => ({
-      ...styles,
-      flex: 1,
-    }),
-  };
+const CategorySelect = ({ options = [], label, name, onChange, value }) => {
+  const [currentValue, setCurrentValue] = useState(value || options[0]);
+  const customStyles = { container: (styles) => ({ ...styles, flex: 1 }) };
 
   const onChangeHandler = (option) => {
     setCurrentValue(option);
     onChange(option);
   };
 
-  if (label) {
-    return (
-      <FieldWrapper>
-        <Label htmlFor={selectId}>{label}</Label>
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
 
-        <StyledSelect
-          styles={customStyles}
-          label={label}
-          name={name}
-          value={currentValue}
-          options={optionsList}
-          onChange={onChangeHandler}
-          theme={(theme) => themeOptions(theme)}
-        />
-      </FieldWrapper>
-    );
-  }
-
-  return (
+  const renderSelect = () => (
     <StyledSelect
       styles={customStyles}
       label={label}
       name={name}
       value={currentValue}
-      options={optionsList}
+      options={options}
       onChange={onChangeHandler}
       theme={(theme) => themeOptions(theme)}
     />
   );
+
+  if (label) {
+    return (
+      <FieldWrapper>
+        <Label htmlFor={name}>{label}</Label>
+
+        {renderSelect()}
+      </FieldWrapper>
+    );
+  }
+
+  return renderSelect();
 };
 
 export default CategorySelect;

@@ -15,6 +15,7 @@ export const GET_ONE_GOOD = gql`
     getOneGood(id: $id) {
       ...goodData
       info {
+        id
         title
         description
         goodId
