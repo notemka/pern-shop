@@ -13,8 +13,8 @@ import GoodInfoFields from './GoodInfoFields';
 const AddGoodForm = ({ data, isEditMode }) => {
   const initialFields = {
     name: data?.name || '',
-    brandId: data?.brandId || '',
-    typeId: data?.typeId || '',
+    brandId: data?.brandId,
+    typeId: data?.typeId,
     price: data?.price || 0,
     rating: data?.rating || 0,
     img: data?.img || {},
@@ -94,14 +94,14 @@ const AddGoodForm = ({ data, isEditMode }) => {
     try {
       const formData = {
         name,
-        brandId,
-        typeId,
+        brandId: brandId || brand.value,
+        typeId: typeId || type.value,
         price: +price,
         rating: +rating || 0,
         img,
-        info: JSON.stringify(info),
+        info: info.map(({ __typename, ...rest }) => ({ ...rest })),
       };
-      console.log(info);
+
       const message = isEditMode ? `Товар ${name} обнавлен` : `Новый товар ${name} добавлен`;
 
       if (isEditMode) {

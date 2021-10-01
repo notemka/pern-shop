@@ -26,9 +26,8 @@ class GoodController {
         typeId,
       });
 
-      if (info) {
-        const infoArray = JSON.parse(info);
-        await infoArray.map(async ({ title, description }) => {
+      if (info.length) {
+        await info.map(async ({ title, description }) => {
           await GoodInfo.create({
             title,
             description,
@@ -111,14 +110,29 @@ class GoodController {
     }
 
     try {
-      const updatedGood = await Good.update({ ...updatedData }, { where: { id }, returning: true });
+      const oldGoodInfo = await GoodInfo.findAll({ where: { goodId: id } });
+
+      // Find old info that doesn't exist in the new info and delete it
+      const deletedInfoArr = oldGoodInfo.filter((oldItem) => !info.some((newItem) => oldItem.id === newItem.id));
+      deletedInfoArr.map(async (item) => await GoodInfo.destroy({ where: { id: item.id } }));
+
+      // Delete old data for info field of this good if new info field doesn't contain anything
+      if (oldGoodInfo.length > 0 && !info.length) {
+        await GoodInfo.destroy({ where: { goodId: id } });
+      }
 
       if (info.length) {
-        const infoArray = JSON.parse(info);
-        await infoArray.map(async ({ title, description }) => {
-          await GoodInfo.update({ title, description }, { where: { goodId: id }, returning: true });
+        await info.map(async ({ id: infoId, title, description }) => {
+          const isExistedData = oldGoodInfo.some((item) => item.id === infoId);
+
+          if (isExistedData) {
+            await GoodInfo.update({ title, description }, { where: { id: infoId }, returning: true });
+          } else {
+            await GoodInfo.create({ title, description, goodId: id });
+          }
         });
       }
+      const updatedGood = await Good.update({ ...updatedData }, { where: { id }, returning: true });
 
       return updatedGood;
     } catch (error) {

@@ -9,7 +9,7 @@ export const CREATE_GOOD = gql`
     $img: Upload!
     $typeId: ID!
     $brandId: ID!
-    $info: String
+    $info: [GoodInfoInput]
   ) {
     createGood(
       input: { name: $name, price: $price, rating: $rating, img: $img, typeId: $typeId, brandId: $brandId, info: $info }
@@ -34,7 +34,7 @@ export const UPDATE_GOOD = gql`
     $img: Upload!
     $brandId: ID!
     $typeId: ID!
-    $info: String
+    $info: [GoodInfoInput]
   ) {
     updateGood(
       input: {

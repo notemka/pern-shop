@@ -9,7 +9,7 @@ const inputs = `
     id: ID!
     title: String!
     description: String!
-    goodId: ID!
+    goodId: ID
   }
 
   input GoodInput {
@@ -20,7 +20,7 @@ const inputs = `
     img: Upload!
     typeId: ID!
     brandId: ID!
-    info: String
+    info: [GoodInfoInput]
   }
 
   input UpdatedGoodInput {
@@ -31,7 +31,7 @@ const inputs = `
     img: Upload!
     typeId: ID!
     brandId: ID!
-    info: String
+    info: [GoodInfoInput]
   }
 
   input BasketListInput {
