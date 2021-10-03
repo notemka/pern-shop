@@ -59,7 +59,7 @@ const CloseButton = styled(Button)`
   }
 `;
 
-const Navigation = (props) => {
+const Navigation = () => {
   const [menuVisibility, setMenuVisibility] = useState(false);
   const user = true;
   const toggleMenuHandler = () => {

@@ -1,8 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
-import InfoText from 'components/atoms/InfoText';
 import breakpoints from 'styles/breakpoints';
-import GoodItem from './GoodItem';
 
 const List = styled.ul`
   display: grid;
@@ -29,19 +26,4 @@ const List = styled.ul`
   }
 `;
 
-const GoodList = ({ goods }) => {
-  if (goods.length) {
-    return (
-      <>
-        <List data-testid="test-recipe-list">
-          {goods.map((good) => (
-            <GoodItem key={good.id} good={good} />
-          ))}
-        </List>
-      </>
-    );
-  }
-  return <InfoText>Товары этой категории отсутствуют</InfoText>;
-};
-
-export default GoodList;
+export default List;

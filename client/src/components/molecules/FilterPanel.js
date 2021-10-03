@@ -1,7 +1,5 @@
 import React from 'react';
 
-const FilterPanel = () => {
-  return <div></div>;
-};
+const FilterPanel = () => <div />;
 
 export default FilterPanel;

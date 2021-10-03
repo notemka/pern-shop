@@ -1,41 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-
-import { Context } from 'App';
-import { GET_ALL_GOODS } from 'graphql/queries/goods';
-
+import React from 'react';
 import MainTemplate from 'components/templates/MainTemplate';
-import GoodList from 'components/molecules/GoodList';
+import GoodList from 'components/molecules/GoodList/GoodList';
 import SearchField from 'components/molecules/SearchField';
-import InfoText from 'components/atoms/InfoText';
-import Loader from 'components/atoms/Loader';
 
-const Goods = () => {
-  const { goods, setGoods } = useContext(Context);
-  const { data, loading, error } = useQuery(GET_ALL_GOODS);
+const Goods = () => (
+  <MainTemplate>
+    <div>
+      <h1>Список всех товаров</h1>
+      <SearchField />
 
-  useEffect(() => {
-    if (!loading) {
-      setGoods(data.getAllGoods);
-    }
-  }, [data]);
-
-  return (
-    <MainTemplate>
-      <div>
-        <h1>Список всех товаров</h1>
-        <SearchField />
-
-        {loading ? (
-          <Loader />
-        ) : goods.length ? (
-          <GoodList goods={goods} />
-        ) : (
-          <InfoText>{error && 'Товары отсутствуют, пожалуйста, обратитесь к администратору'}</InfoText>
-        )}
-      </div>
-    </MainTemplate>
-  );
-};
+      <GoodList />
+    </div>
+  </MainTemplate>
+);
 
 export default Goods;

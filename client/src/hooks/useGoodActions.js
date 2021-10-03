@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
-import { DELETE_GOOD, UPDATE_GOOD } from 'graphql/mutations/good';
-import { ADD_TO_BASKET } from 'graphql/mutations/basket';
+import { CREATE_GOOD, UPDATE_GOOD, DELETE_GOOD } from 'graphql/mutations/good';
+import { ADD_TO_BASKET, DELETE_FROM_BASKET } from 'graphql/mutations/basket';
 import { GET_ALL_GOODS } from 'graphql/queries/goods';
 
 import { useHistory } from 'react-router-dom';
@@ -8,16 +8,32 @@ import { SHOP_ROUTE } from 'routes';
 
 const useGoodActions = () => {
   const mutationOptions = { refetchQueries: [{ query: GET_ALL_GOODS }] };
-  const [updateGood, { loading: updateLoading }] = useMutation(UPDATE_GOOD, mutationOptions);
-  const [deleteGood, { loading: deleteLoading }] = useMutation(DELETE_GOOD, mutationOptions);
-  const [addToBasket, { loading: basketLoading }] = useMutation(ADD_TO_BASKET);
+  const [updateMutation, { loading: updateLoading }] = useMutation(UPDATE_GOOD);
+  const [createMutation, { loading: createLoading }] = useMutation(CREATE_GOOD, mutationOptions);
+  const [deleteMutation, { loading: deleteLoading }] = useMutation(DELETE_GOOD, mutationOptions);
+
+  const [addToBasket, { loading: basketLoading }] = useMutation(ADD_TO_BASKET, {
+    refetchQueries: [{ query: GET_ALL_GOODS }],
+  });
+  const [deleteFromBasketMutation, { loading: deleteFromBasketLoading }] = useMutation(DELETE_FROM_BASKET);
   const { push } = useHistory();
 
-  const editGood = async (data) => {
+  const createGood = async (data) => {
     try {
-      await updateGood({ variables: data });
+      await createMutation({ variables: data });
       if (!updateLoading) {
-        alert('Товар успешно изменен!');
+        alert('Товар успешно создан!');
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const updateGood = async (data) => {
+    try {
+      await updateMutation({ variables: data });
+      if (!updateLoading) {
+        alert('Товар успешно обновлен!');
       }
     } catch (error) {
       console.log(error.message);
@@ -26,7 +42,7 @@ const useGoodActions = () => {
 
   const removeGood = async (id) => {
     try {
-      await deleteGood({ variables: { id } });
+      await deleteMutation({ variables: { id } });
       if (!deleteLoading) {
         push(SHOP_ROUTE);
         alert('Товар успешно удален!');
@@ -47,10 +63,23 @@ const useGoodActions = () => {
     }
   };
 
+  const deleteFromBasket = async (id) => {
+    try {
+      await deleteFromBasketMutation({ variables: { goodId: id } });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return {
-    editGood,
+    createGood,
+    createLoading,
+    updateGood,
+    updateLoading,
     removeGood,
     addGoodToBasket,
+    deleteFromBasket,
+    deleteFromBasketLoading,
   };
 };
 

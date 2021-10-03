@@ -56,17 +56,17 @@ const Alert = () => {
     setAlerts((alertsMsgs) => alertsMsgs.filter((alert) => alert.id !== id));
   };
 
-  const showAlertMessage = (data) => {
-    let timer;
-    const time = 4000;
-    const id = Date.now().toString(32);
-    const alert = { id, ...data };
-    clearTimeout(timer);
+  // const showAlertMessage = (data) => {
+  //   let timer;
+  //   const time = 4000;
+  //   const id = Date.now().toString(32);
+  //   const alert = { id, ...data };
+  //   clearTimeout(timer);
 
-    setAlerts((alertsMsgs) => ({ ...alertsMsgs, alert }));
+  //   setAlerts((alertsMsgs) => ({ ...alertsMsgs, alert }));
 
-    timer = setTimeout(() => hideAlertMessage(alert.id), time);
-  };
+  //   timer = setTimeout(() => hideAlertMessage(alert.id), time);
+  // };
 
   return (
     <AlertList>

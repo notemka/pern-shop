@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { CREATE_GOOD, UPDATE_GOOD } from 'graphql/mutations/good';
 import useFetchTypesBrands from 'hooks/useFetchTypesBrands';
 
 import CategorySelect from 'components/molecules/CategorySelect';
@@ -8,9 +6,10 @@ import Form from 'components/atoms/Form';
 import Input from 'components/atoms/Input';
 import Button from 'components/atoms/buttons/Button';
 import Loader from 'components/atoms/Loader';
+import useGoodActions from 'hooks/useGoodActions';
 import GoodInfoFields from './GoodInfoFields';
 
-const AddGoodForm = ({ data, isEditMode }) => {
+const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
   const initialFields = {
     name: data?.name || '',
     brandId: data?.brandId,
@@ -41,8 +40,7 @@ const AddGoodForm = ({ data, isEditMode }) => {
     }
   }, [isEditMode, types, brands]);
 
-  const [createGood, { loading: createLoading }] = useMutation(CREATE_GOOD);
-  const [updateGood, { loading: updateLoading }] = useMutation(UPDATE_GOOD);
+  const { updateGood, createGood, createLoading, updateLoading } = useGoodActions();
   const isSaving = createLoading || updateLoading;
 
   const changeFieldValue = (obj) => setGoodFields((fields) => ({ ...fields, ...obj }));
@@ -102,16 +100,14 @@ const AddGoodForm = ({ data, isEditMode }) => {
         info: info.map(({ __typename, ...rest }) => ({ ...rest })),
       };
 
-      const message = isEditMode ? `Товар ${name} обнавлен` : `Новый товар ${name} добавлен`;
-
       if (isEditMode) {
-        await updateGood({ variables: { ...formData, id: initialFields.id } });
+        await updateGood({ ...formData, id: initialFields.id });
+        await refetchUpdatedData();
       } else {
-        await createGood({ variables: formData });
+        await createGood(formData);
       }
 
       resetFields();
-      alert(message);
     } catch (error) {
       console.error(error.message);
     }

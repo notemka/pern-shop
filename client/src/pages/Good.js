@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const Good = () => {
   const { id } = useParams();
   const [good, setGood] = useState(null);
-  const { data, loading, error } = useQuery(GET_ONE_GOOD, {
+  const { data, loading, error, refetch } = useQuery(GET_ONE_GOOD, {
     variables: { id },
   });
 
@@ -45,7 +45,7 @@ const Good = () => {
         {loading ? (
           <Loader />
         ) : good ? (
-          <GoodDetails good={good} />
+          <GoodDetails good={good} refetch={refetch} />
         ) : (
           <InfoText>{error || 'Что-то пошло не так...'}</InfoText>
         )}
