@@ -60,8 +60,8 @@ const AuthForm = () => {
 
   return (
     <Form onSubmit={onSubmit} data-testid={`test-${pageName.toLowerCase()}-form`}>
-      <Input type="email" label="Email" name="email" value={email} onChange={onChange} />
-      <Input type="password" label="Password" name="password" value={password} onChange={onChange} />
+      <Input type="email" label="Email" name="email" value={email} onChange={onChange} required />
+      <Input type="password" label="Password" name="password" value={password} onChange={onChange} required />
 
       <FieldActions>
         {pageName === 'Login' ? <Link to="/registration">Registration</Link> : <Link to="/login">Login</Link>}

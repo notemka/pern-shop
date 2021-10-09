@@ -27,7 +27,7 @@ const AddTypeForm = () => {
 
   return (
     <Form onSubmit={addNewType}>
-      <Input label="Наименование категории" value={type} onChange={(e) => setType(e.target.value)} />
+      <Input label="Наименование категории" value={type} onChange={(e) => setType(e.target.value)} required />
       <Button type="submit" disabled={!type || loading}>
         {loading ? <Loader size="small" /> : 'Добавить категорию'}
       </Button>

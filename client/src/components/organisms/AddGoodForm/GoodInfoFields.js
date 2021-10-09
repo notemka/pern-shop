@@ -30,33 +30,58 @@ const DeleteButton = styled(RoundButton)`
   right: 5px;
 `;
 
-const GoodInfoFields = ({ goodInfo, addProperty, changeProperty, removeProperty }) => (
-  <FieldWrapper>
-    <StyledButton title="Добавить свойство" onClick={addProperty}>
-      <FontAwesomeIcon icon={faPlus} />
-      <span>Добавить свойство</span>
-    </StyledButton>
+const GoodInfoFields = ({ goodInfo, setGoodFields }) => {
+  const addProperty = () => {
+    setGoodFields((fields) => ({
+      ...fields,
+      info: [...fields.info, { id: Date.now(), title: '', description: '' }],
+    }));
+  };
 
-    {goodInfo.map(({ id, title, description }) => (
-      <Fieldset key={id}>
-        <Input
-          label="Наименование свойства"
-          name="info-title"
-          onChange={(event) => changeProperty('title', event.target.value, id)}
-          value={title}
-        />
-        <Input
-          label="Значение свойства"
-          name="info-description"
-          onChange={(event) => changeProperty('description', event.target.value, id)}
-          value={description}
-        />
-        <DeleteButton title="Удалить свойство" aria-label="Удалить свойство" onClick={() => removeProperty(id)}>
-          <FontAwesomeIcon icon={faTrash} />
-        </DeleteButton>
-      </Fieldset>
-    ))}
-  </FieldWrapper>
-);
+  const changeProperty = (key, value, id) => {
+    setGoodFields((fields) => ({
+      ...fields,
+      info: fields.info.map((infoData) => (infoData.id === id ? { ...infoData, [key]: value } : infoData)),
+    }));
+  };
+
+  const removeProperty = (id) => {
+    setGoodFields((fields) => ({
+      ...fields,
+      info: fields.info.filter((infoData) => infoData.id !== id),
+    }));
+  };
+  return (
+    <FieldWrapper>
+      <StyledButton title="Добавить свойство" onClick={addProperty}>
+        <FontAwesomeIcon icon={faPlus} />
+        <span>Добавить свойство</span>
+      </StyledButton>
+
+      {goodInfo.map(({ id, title, description }) => (
+        <Fieldset key={id}>
+          <DeleteButton title="Удалить свойство" aria-label="Удалить свойство" onClick={() => removeProperty(id)}>
+            <FontAwesomeIcon icon={faTrash} />
+          </DeleteButton>
+
+          <Input
+            label="Наименование свойства"
+            name="info-title"
+            onChange={(event) => changeProperty('title', event.target.value, id)}
+            value={title}
+            required
+          />
+          <Input
+            label="Значение свойства"
+            name="info-description"
+            onChange={(event) => changeProperty('description', event.target.value, id)}
+            value={description}
+            required
+          />
+        </Fieldset>
+      ))}
+    </FieldWrapper>
+  );
+};
 
 export default GoodInfoFields;

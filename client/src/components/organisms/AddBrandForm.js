@@ -27,7 +27,7 @@ const AddBrandForm = () => {
 
   return (
     <Form onSubmit={addNewBrand}>
-      <Input label="Наименование бренда" value={brand} onChange={(e) => setBrand(e.target.value)} />
+      <Input label="Наименование бренда" value={brand} onChange={(e) => setBrand(e.target.value)} required />
       <Button type="submit" disabled={!brand || loading}>
         {loading ? <Loader size="small" /> : 'Добавить бренд'}
       </Button>

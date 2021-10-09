@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import FieldWrapper from './FieldWrapper';
 import Label from './Label';
 
@@ -17,14 +17,14 @@ const Input = (props) => {
     maxLength,
     errorMessage,
     autoFocus,
+    customRef,
   } = props;
   const inputType = type || 'text';
   const inputId = `input-${name}`;
-  const ref = useRef(null);
 
   useEffect(() => {
-    if (autoFocus) {
-      ref.current.focus();
+    if (autoFocus && customRef) {
+      customRef.current.focus();
     }
   });
 
@@ -32,7 +32,7 @@ const Input = (props) => {
     <FieldWrapper className={className}>
       {label && <Label htmlFor={inputId}>{label}</Label>}
       <input
-        ref={ref}
+        ref={customRef}
         id={inputId}
         type={inputType}
         value={value}

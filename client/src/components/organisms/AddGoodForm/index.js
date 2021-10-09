@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useFetchTypesBrands from 'hooks/useFetchTypesBrands';
 
 import CategorySelect from 'components/molecules/CategorySelect';
@@ -16,7 +16,7 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
     typeId: data?.typeId,
     price: data?.price || 0,
     rating: data?.rating || 0,
-    img: data?.img || {},
+    img: data?.img || null,
     info: data?.info || [],
   };
 
@@ -26,6 +26,7 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
   const [goodFields, setGoodFields] = useState(initialFields);
   const { name, brandId, typeId, price, rating, img, info } = goodFields;
   const { brands, types, typesBrandsLoading } = useFetchTypesBrands();
+  const fileRef = useRef(null);
 
   const [brand, setBrand] = useState({});
   const [type, setType] = useState({});
@@ -52,32 +53,14 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
 
   const onFileChange = (event) => changeFieldValue({ img: event.target.files[0] });
 
-  const addProperty = () => {
-    setGoodFields((fields) => ({
-      ...fields,
-      info: [...fields.info, { id: Date.now(), title: '', description: '' }],
-    }));
-  };
-
-  const changeProperty = (key, value, id) => {
-    setGoodFields((fields) => ({
-      ...fields,
-      info: fields.info.map((infoData) => (infoData.id === id ? { ...infoData, [key]: value } : infoData)),
-    }));
-  };
-
-  const removeProperty = (id) => {
-    setGoodFields((fields) => ({
-      ...fields,
-      info: fields.info.filter((infoData) => infoData.id !== id),
-    }));
-  };
-
   const resetFields = () => {
     setGoodFields((fields) => {
       const emptyFields = {};
 
       Object.keys(fields).map((key) => {
+        if (key === 'img') {
+          fileRef.current.value = initialFields[key];
+        }
         emptyFields[key] = initialFields[key];
         return key;
       });
@@ -118,13 +101,14 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
       {typesBrandsLoading ? (
         <Loader />
       ) : (
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} id="form">
           <CategorySelect
             label="Категории"
             name="categories"
             options={types}
             value={type}
             onChange={({ value }) => onChange('categories', value)}
+            required
           />
           <CategorySelect
             label="Бренды"
@@ -132,12 +116,14 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
             options={brands}
             value={brand}
             onChange={({ value }) => onChange('brands', value)}
+            required
           />
 
           <Input
             label="Наименование товара"
             onChange={(event) => changeFieldValue({ name: event.target.value })}
             value={name}
+            required
           />
 
           <Input
@@ -147,16 +133,12 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
             min="0"
             onChange={(event) => changeFieldValue({ price: event.target.value })}
             value={price}
+            required
           />
 
-          <GoodInfoFields
-            goodInfo={info}
-            addProperty={addProperty}
-            changeProperty={changeProperty}
-            removeProperty={removeProperty}
-          />
+          <GoodInfoFields goodInfo={info} setGoodFields={setGoodFields} />
 
-          <Input type="file" label="Изображение" onChange={onFileChange} />
+          <Input type="file" customRef={fileRef} label="Изображение" onChange={onFileChange} required />
 
           <Button type="submit" disabled={isSaving}>
             {isSaving ? <Loader size="small" /> : `${isEditMode ? 'Редактировать' : 'Добавить'} товар`}
