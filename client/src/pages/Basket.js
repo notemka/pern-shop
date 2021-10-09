@@ -11,12 +11,12 @@ import BasketList from 'components/molecules/BasketList';
 
 const Basket = () => {
   const { user } = useContext(Context);
-  const { data, loading, error } = useQuery(GET_ALL_BASKET_GOODS, { variables: { id: user.id } });
+  const { data, loading, error, refetch } = useQuery(GET_ALL_BASKET_GOODS, { variables: { id: user.id } });
   const [goodList, setGoodList] = useState([]);
 
   const onCompleted = (goods) => {
     const list = goods?.getGoodsDataForBasket;
-    if (goodList) {
+    if (list) {
       setGoodList(list);
     }
   };
@@ -30,12 +30,15 @@ const Basket = () => {
         }
         return arr;
       }, []);
-
-      getGoodsData({ variables: { basketList } });
+      await getGoodsData({ variables: { basketList } });
     };
 
     if (data) fetchDetails();
   }, [data, getGoodsData]);
+
+  useEffect(() => {
+    refetch();
+  }, [goodList]);
 
   return (
     <MainTemplate>
@@ -43,7 +46,7 @@ const Basket = () => {
         <h1>Корзина</h1>
 
         {error && <p>{error.message}</p>}
-        {loading && goodsLoading ? <Loader /> : <BasketList goods={goodList} />}
+        {loading && goodsLoading ? <Loader /> : <BasketList goodList={goodList} setGoodList={setGoodList} />}
       </div>
     </MainTemplate>
   );

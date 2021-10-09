@@ -34,26 +34,21 @@ const GoodItem = styled.li`
   }
 `;
 
-const BasketList = ({ goods }) => {
-  const [goodsList, setGoodsList] = useState(goods);
+const BasketList = ({ goodList, setGoodList }) => {
   const { deleteFromBasket, deleteFromBasketLoading: loading } = useGoodActions();
-
-  useEffect(() => {
-    setGoodsList(goods);
-  }, [goods]);
 
   const deleteFromBasketList = async (id) => {
     await deleteFromBasket(id);
-    setGoodsList((list) => list.filter(({ id: goodId }) => +goodId !== +id));
+    setGoodList((list) => list.filter(({ id: goodId }) => +goodId !== +id));
   };
 
-  if (!goodsList.length) {
+  if (!goodList.length) {
     return <InfoText>Корзина пуста</InfoText>;
   }
 
   return (
     <ul>
-      {goodsList.map(({ id, name, price, img }) => (
+      {goodList.map(({ id, name, price, img }) => (
         <GoodItem key={id}>
           <figure>
             <img src={process.env.REACT_APP_API_URL + img} alt={name} />

@@ -12,9 +12,7 @@ const useGoodActions = () => {
   const [createMutation, { loading: createLoading }] = useMutation(CREATE_GOOD, mutationOptions);
   const [deleteMutation, { loading: deleteLoading }] = useMutation(DELETE_GOOD, mutationOptions);
 
-  const [addToBasket, { loading: basketLoading }] = useMutation(ADD_TO_BASKET, {
-    refetchQueries: [{ query: GET_ALL_GOODS }],
-  });
+  const [addToBasket, { loading: basketLoading }] = useMutation(ADD_TO_BASKET);
   const [deleteFromBasketMutation, { loading: deleteFromBasketLoading }] = useMutation(DELETE_FROM_BASKET);
   const { push } = useHistory();
 
