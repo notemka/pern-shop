@@ -8,7 +8,7 @@ import { faTools, faHeart, faTrash, faShoppingCart } from '@fortawesome/free-sol
 import { Context } from 'App';
 import useGoodActions from 'hooks/useGoodActions';
 
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { RoundButton } from 'components/atoms/buttons';
 import { Wrapper, Photo, Description, Text, Actions } from './styled';
 
 const GoodItem = ({ good }) => {

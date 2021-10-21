@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import breakpoints from 'styles/breakpoints';
-import Button from 'components/atoms/buttons/Button';
+import { Button } from 'components/atoms/buttons';
 import InfoText from 'components/atoms/InfoText';
 import Loader from 'components/atoms/Loader';
 import useGoodActions from 'hooks/useGoodActions';

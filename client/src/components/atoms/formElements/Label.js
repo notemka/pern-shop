@@ -8,8 +8,10 @@ const StyledLabel = styled.label`
   }
 `;
 
-const Label = ({ htmlFor, children }) => (
-  <StyledLabel htmlFor={htmlFor && htmlFor}>{children}</StyledLabel>
+const Label = ({ htmlFor, children, ...restProps }) => (
+  <StyledLabel htmlFor={htmlFor} {...restProps}>
+    {children}
+  </StyledLabel>
 );
 
 export default Label;

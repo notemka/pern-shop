@@ -81,8 +81,9 @@ const GlobalStyle = createGlobalStyle`
   textarea,
   input {
     width: 100%;
-    padding: 8px 10px;
+    padding: 10px;
     border: 1px solid var(--border-color);
+    border-radius: 4px;
   }
 
   textarea + span,

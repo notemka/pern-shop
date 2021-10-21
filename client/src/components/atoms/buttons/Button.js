@@ -5,10 +5,10 @@ const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 12px;
+  padding: 10px 12px;
   color: var(--white-color);
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: var(--primary-color);
   text-transform: uppercase;
   transition: background-color 0.4s;
@@ -34,23 +34,10 @@ const StyledButton = styled.button`
 `;
 
 const Button = (props) => {
-  const {
-    children,
-    disabled,
-    className,
-    onClick,
-    type = 'button',
-    title,
-  } = props;
+  const { children, disabled, className, onClick, type = 'button', title, ...restProps } = props;
 
   return (
-    <StyledButton
-      type={type}
-      className={className}
-      title={title}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <StyledButton type={type} className={className} title={title} onClick={onClick} disabled={disabled} {...restProps}>
       {children}
     </StyledButton>
   );

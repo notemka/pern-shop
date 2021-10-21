@@ -4,7 +4,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { LOGIN_ROUTE, publicRoutes, authRoutes } from 'routes';
 
 import { Context } from 'App';
-import Button from 'components/atoms/buttons/Button';
+import { Button } from 'components/atoms/buttons';
 import breakpoints from 'styles/breakpoints';
 
 const NavList = styled.ul`

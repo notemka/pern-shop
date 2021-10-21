@@ -11,7 +11,7 @@ import GET_ALL_TYPES from 'graphql/queries/type';
 import useTypeBrandActions from 'hooks/useTypeBrandActions';
 
 import MainTemplate from 'components/templates/MainTemplate';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { RoundButton } from 'components/atoms/buttons';
 import Loader from 'components/atoms/Loader';
 import breakpoints from 'styles/breakpoints';
 

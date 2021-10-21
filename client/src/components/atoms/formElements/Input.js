@@ -4,25 +4,22 @@ import Label from './Label';
 
 const Input = (props) => {
   const {
+    id,
     type,
     label,
     className,
     value,
     name,
-    disabled,
-    required,
-    placeholder,
-    accept,
-    onChange,
     maxLength,
     errorMessage,
     autoFocus,
-    customRef,
     icon,
+    customRef,
     customStyles,
+    ...restProps
   } = props;
   const inputType = type || 'text';
-  const inputId = `input-${name}`;
+  const inputId = id || `input-${name}`;
 
   useEffect(() => {
     if (autoFocus && customRef) {
@@ -39,12 +36,8 @@ const Input = (props) => {
         type={inputType}
         value={value}
         name={name}
-        accept={accept}
-        disabled={disabled}
-        required={required}
-        placeholder={placeholder}
         maxLength={maxLength}
-        onChange={onChange}
+        {...restProps}
       />
       {icon && icon}
 

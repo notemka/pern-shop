@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { RoundButton } from 'components/atoms/buttons';
 
 const Wrapper = styled.div`
   position: fixed;

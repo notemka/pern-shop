@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { RoundButton } from 'components/atoms/buttons';
 
 const AlertList = styled.ul`
   position: fixed;

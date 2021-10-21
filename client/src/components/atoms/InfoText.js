@@ -6,8 +6,6 @@ const StyledParagraph = styled.p`
   text-align: center;
 `;
 
-const InfoText = ({ children, className }) => (
-  <StyledParagraph className={className}>{children}</StyledParagraph>
-);
+const InfoText = ({ children, ...restProps }) => <StyledParagraph {...restProps}>{children}</StyledParagraph>;
 
 export default InfoText;

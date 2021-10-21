@@ -8,9 +8,8 @@ import { Context } from 'App';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, REGISTER_USER } from 'graphql/mutations/user';
 
-import Form from 'components/atoms/Form';
-import Input from 'components/atoms/Input';
-import Button from 'components/atoms/buttons/Button';
+import { Form, Input } from 'components/atoms/formElements';
+import { Button } from 'components/atoms/buttons';
 
 const FieldActions = styled.div`
   display: flex;

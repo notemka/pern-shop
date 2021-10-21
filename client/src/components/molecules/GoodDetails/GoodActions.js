@@ -4,7 +4,7 @@ import breakpoints from 'styles/breakpoints';
 
 import { Context } from 'App';
 import useGoodActions from 'hooks/useGoodActions';
-import Button from 'components/atoms/buttons/Button';
+import { Button } from 'components/atoms/buttons';
 
 const Actions = styled.div`
   display: grid;

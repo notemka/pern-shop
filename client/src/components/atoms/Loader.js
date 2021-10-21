@@ -37,11 +37,11 @@ const StyledLoader = styled.div(
         transform: rotate(360deg);
       }
     }
-  `
+  `,
 );
 
-const Loader = ({ size }) => (
-  <LoaderWrapper>
+const Loader = ({ size, ...restProps }) => (
+  <LoaderWrapper {...restProps}>
     <StyledLoader size={size} />
   </LoaderWrapper>
 );

@@ -5,8 +5,8 @@ const StyledForm = styled.form`
   padding: 15px;
 `;
 
-const Form = ({ onSubmit, className, children, ...args }) => (
-  <StyledForm onSubmit={onSubmit} className={className} {...args}>
+const Form = ({ onSubmit, children, ...restProps }) => (
+  <StyledForm onSubmit={onSubmit} {...restProps}>
     {children}
   </StyledForm>
 );

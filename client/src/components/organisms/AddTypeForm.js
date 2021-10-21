@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_TYPE } from 'graphql/mutations/type';
 
-import Form from 'components/atoms/Form';
-import Input from 'components/atoms/Input';
-import Button from 'components/atoms/buttons/Button';
+import { Form, Input } from 'components/atoms/formElements';
+import { Button } from 'components/atoms/buttons';
 import Loader from 'components/atoms/Loader';
 
 const AddTypeForm = () => {

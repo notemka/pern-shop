@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useFetchTypesBrands from 'hooks/useFetchTypesBrands';
 
-import CategorySelect from 'components/molecules/CategorySelect';
-import Form from 'components/atoms/Form';
-import Input from 'components/atoms/Input';
-import Button from 'components/atoms/buttons/Button';
+import CustomSelect from 'components/molecules/CustomSelect';
+
+import { Form, Input } from 'components/atoms/formElements';
+import { Button } from 'components/atoms/buttons';
 import Loader from 'components/atoms/Loader';
 import useGoodActions from 'hooks/useGoodActions';
 import GoodInfoFields from './GoodInfoFields';
@@ -102,7 +102,7 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
         <Loader />
       ) : (
         <Form onSubmit={onSubmit} id="form">
-          <CategorySelect
+          <CustomSelect
             label="Категории"
             name="categories"
             options={types}
@@ -110,7 +110,7 @@ const AddGoodForm = ({ data, isEditMode, refetchUpdatedData }) => {
             onChange={({ value }) => onChange('categories', value)}
             required
           />
-          <CategorySelect
+          <CustomSelect
             label="Бренды"
             name="brands"
             options={brands}

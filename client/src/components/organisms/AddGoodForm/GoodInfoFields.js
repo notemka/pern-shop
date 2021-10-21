@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import FieldWrapper from 'components/atoms/FieldWrapper';
-import Input from 'components/atoms/Input';
-import Button from 'components/atoms/buttons/Button';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { FieldWrapper, Input } from 'components/atoms/formElements';
+import { Button, RoundButton } from 'components/atoms/buttons';
 
 const StyledButton = styled(Button)`
   margin-bottom: 20px;

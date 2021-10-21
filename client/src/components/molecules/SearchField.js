@@ -7,7 +7,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { SEARCH_SOME_GOODS } from 'graphql/queries/goods';
 import debounce from 'lodash.debounce';
-import Input from 'components/atoms/Input';
+import { Input } from 'components/atoms/formElements';
 
 const fieldWrapperCustomStyles = () => css`
   position: relative;

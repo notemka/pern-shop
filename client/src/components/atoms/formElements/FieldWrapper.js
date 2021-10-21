@@ -8,8 +8,8 @@ const FieldWrap = styled.div(
   `,
 );
 
-const FieldWrapper = ({ className, children, customStyles }) => (
-  <FieldWrap className={className} customStyles={customStyles}>
+const FieldWrapper = ({ children, customStyles, ...restProps }) => (
+  <FieldWrap customStyles={customStyles} {...restProps}>
     {children}
   </FieldWrap>
 );
