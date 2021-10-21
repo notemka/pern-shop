@@ -31,6 +31,8 @@ const resolvers = {
     return basketGoods;
   },
 
+  querySearch: async ({ query }) => await goodController.querySearch(query),
+
   getAllTypes: async () => await typeController.getAll(),
   getAllBrands: async () => await brandController.getAll(),
   getAllBasketGoods: async ({ id }) => await basketController.getAll(id),

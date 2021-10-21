@@ -10,6 +10,15 @@ export const GET_ALL_GOODS = gql`
   ${goodDataFragment}
 `;
 
+export const SEARCH_SOME_GOODS = gql`
+  query querySearch($query: String!) {
+    querySearch(query: $query) {
+      ...goodData
+    }
+  }
+  ${goodDataFragment}
+`;
+
 export const GET_ONE_GOOD = gql`
   query getOneGood($id: ID!) {
     getOneGood(id: $id) {

@@ -2,6 +2,7 @@ const uuid = require('uuid');
 const path = require('path');
 const fs = require('fs');
 const { Good, GoodInfo } = require('../models');
+const { Op } = require('sequelize');
 
 class GoodController {
   async saveImage({ file }) {
@@ -135,6 +136,16 @@ class GoodController {
       const updatedGood = await Good.update({ ...updatedData }, { where: { id }, returning: true });
 
       return updatedGood;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async querySearch(query) {
+    try {
+      const filteredGoods = await Good.findAll({ where: { name: { [Op.iLike]: `%${query}%` } } });
+
+      return filteredGoods;
     } catch (error) {
       throw new Error(error);
     }

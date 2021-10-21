@@ -6,6 +6,8 @@ const queries = `
     getOneGood(id: ID!): Good
     getGoodsDataForBasket(basketList: [BasketListInput]): [Good]
 
+    querySearch(query: String!): [Good]
+
     getAllTypes: [Type]
 
     getAllBrands: [Brand]

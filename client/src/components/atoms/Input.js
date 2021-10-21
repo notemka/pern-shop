@@ -18,6 +18,8 @@ const Input = (props) => {
     errorMessage,
     autoFocus,
     customRef,
+    icon,
+    customStyles,
   } = props;
   const inputType = type || 'text';
   const inputId = `input-${name}`;
@@ -29,7 +31,7 @@ const Input = (props) => {
   });
 
   return (
-    <FieldWrapper className={className}>
+    <FieldWrapper className={className} customStyles={customStyles}>
       {label && <Label htmlFor={inputId}>{label}</Label>}
       <input
         ref={customRef}
@@ -44,6 +46,7 @@ const Input = (props) => {
         maxLength={maxLength}
         onChange={onChange}
       />
+      {icon && icon}
 
       {maxLength && value && value.length === +maxLength ? (
         <span>Must be {maxLength} characters or less</span>

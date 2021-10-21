@@ -1,41 +1,76 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import styled, { css } from 'styled-components';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
+import { SEARCH_SOME_GOODS } from 'graphql/queries/goods';
+import debounce from 'lodash.debounce';
 import Input from 'components/atoms/Input';
 
-const SearchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const SearchInput = styled(Input)`
+const fieldWrapperCustomStyles = () => css`
+  position: relative;
   width: 100%;
   margin-bottom: 0;
 
   input {
-    height: 38px;
+    padding-right: 36px;
+
+    &:focus + svg > path {
+      fill: var(--primary-color);
+    }
+
+    &::-ms-clear,
+    &::-webkit-search-cancel-button {
+      color: var(--primary-color);
+    }
   }
 `;
 
-const SearchField = () => {
+const StyledIcon = styled(FontAwesomeIcon)`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+`;
+
+const SearchField = ({ setFilteredGoods }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const onHandleChange = (event) => {
+
+  const onCompleted = (data) => {
+    if (data?.querySearch) {
+      setFilteredGoods(data.querySearch);
+    }
+  };
+
+  const [searchByQuery] = useLazyQuery(SEARCH_SOME_GOODS, { onCompleted });
+  const getGoodsBySearchQuery = useCallback(
+    debounce((query) => searchByQuery({ variables: { query } }), 250),
+    [],
+  );
+  useEffect(() => {
+    getGoodsBySearchQuery(searchQuery);
+  }, [searchQuery]);
+
+  const onChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
   return (
-    <SearchWrapper>
-      <SearchInput
+    <>
+      <Input
         type="search"
         name="search"
         value={searchQuery}
-        onChange={onHandleChange}
+        onChange={onChange}
         placeholder="Введите, например: торцовочная пила"
+        icon={<StyledIcon icon={faSearch} />}
+        customStyles={fieldWrapperCustomStyles}
       />
-      <FontAwesomeIcon icon={faSearch} />
-    </SearchWrapper>
+    </>
   );
 };
 
