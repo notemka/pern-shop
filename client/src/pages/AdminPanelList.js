@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,6 @@ import useTypeBrandActions from 'hooks/useTypeBrandActions';
 import MainTemplate from 'components/templates/MainTemplate';
 import { RoundButton } from 'components/atoms/buttons';
 import Loader from 'components/atoms/Loader';
-import breakpoints from 'styles/breakpoints';
 
 const List = styled.ul`
   max-width: 900px;
@@ -21,19 +20,21 @@ const List = styled.ul`
   list-style: none;
 `;
 
-const Item = styled.li`
-  display: grid;
-  grid-template-columns: 1fr 80px;
-  align-items: center;
-  gap: 15px;
-  padding: 15px;
-  background-color: var(--second-color);
-  border-bottom: 1px solid var(--border-color);
+const Item = styled.li(
+  ({ theme: { breakpoints } }) => css`
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: var(--second-color);
+    border-bottom: 1px solid var(--border-color);
 
-  @media (max-width: ${breakpoints.screenMd}) {
-    grid-template-columns: 1fr;
-  }
-`;
+    @media (max-width: ${breakpoints.md}) {
+      grid-template-columns: 1fr;
+    }
+  `,
+);
 
 const Actions = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyles from 'styles/globalStyles';
-import breakpoints from 'styles/breakpoints';
+import theme from 'styles/theme';
 import Header from '../organisms/Header';
 
 const Container = styled.main`
@@ -10,7 +10,7 @@ const Container = styled.main`
   width: 100%;
 
   & > div {
-    max-width: ${breakpoints.screenXl};
+    max-width: ${theme.breakpoints.xl};
     width: 100%;
     padding: 30px 15px;
     margin: 0 auto;
@@ -18,12 +18,12 @@ const Container = styled.main`
 `;
 
 const MainTemplate = ({ children }) => (
-  <>
+  <ThemeProvider theme={theme}>
     <GlobalStyles />
 
     <Header />
     <Container>{children}</Container>
-  </>
+  </ThemeProvider>
 );
 
 export default MainTemplate;

@@ -1,38 +1,39 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import breakpoints from 'styles/breakpoints';
 import { Button } from 'components/atoms/buttons';
 import InfoText from 'components/atoms/InfoText';
 import Loader from 'components/atoms/Loader';
 import useGoodActions from 'hooks/useGoodActions';
 
-const GoodItem = styled.li`
-  display: grid;
-  grid-template-columns: 150px 1fr auto;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 15px;
-  margin-bottom: 20px;
-  padding: 15px;
+const GoodItem = styled.li(
+  ({ theme: { breakpoints } }) => css`
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
 
-  @media (max-width: ${breakpoints.screenMd}) {
-    grid-template-columns: 1fr;
-  }
-
-  &:nth-child(odd) {
-    background-color: var(--second-color);
-  }
-
-  figure {
-    width: 120px;
-    margin: 0;
-
-    img {
-      width: 100%;
+    @media (max-width: ${breakpoints.md}) {
+      grid-template-columns: 1fr;
     }
-  }
-`;
+
+    &:nth-child(odd) {
+      background-color: var(--second-color);
+    }
+
+    figure {
+      width: 120px;
+      margin: 0;
+
+      img {
+        width: 100%;
+      }
+    }
+  `,
+);
 
 const BasketList = ({ goodList, setGoodList }) => {
   const { deleteFromBasket, deleteFromBasketLoading: loading } = useGoodActions();

@@ -1,8 +1,8 @@
 export default {
-  screenXs: '320px',
-  screenMd: '768px',
-  screenSm: '480px',
-  screenLg: '920px',
-  screenXl: '1200px',
-  screenXXl: '1600px',
+  xs: '320px',
+  md: '768px',
+  sm: '480px',
+  lg: '920px',
+  xl: '1200px',
+  xxl: '1600px',
 };

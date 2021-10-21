@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ADMIN_ROUTE } from 'routes';
 
@@ -7,18 +7,19 @@ import AddBrandForm from 'components/organisms/AddBrandForm';
 import AddGoodForm from 'components/organisms/AddGoodForm';
 import AddTypeForm from 'components/organisms/AddTypeForm';
 import MainTemplate from 'components/templates/MainTemplate';
-import breakpoints from 'styles/breakpoints';
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+const Wrapper = styled.div(
+  ({ theme: { breakpoints } }) => css`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 
-  @media (max-width: ${breakpoints.screenMd}) {
-    grid-template-columns: 1fr;
-    justify-content: center;
-  }
-`;
+    @media (max-width: ${breakpoints.md}) {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
+  `,
+);
 
 const FormWrapper = styled.div`
   margin-bottom: 20px;

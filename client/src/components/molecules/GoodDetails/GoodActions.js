@@ -1,23 +1,24 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
-import breakpoints from 'styles/breakpoints';
+import styled, { css } from 'styled-components';
 
 import AppContext from 'contexts/AppContext';
 import useGoodActions from 'hooks/useGoodActions';
 import { Button } from 'components/atoms/buttons';
 
-const Actions = styled.div`
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(3, auto);
-  justify-content: end;
-  align-items: center;
-  margin-bottom: 20px;
+const Actions = styled.div(
+  ({ theme: { breakpoints } }) => css`
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, auto);
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 20px;
 
-  @media (max-width: ${breakpoints.screenMd}) {
-    grid-template-columns: 1fr;
-  }
-`;
+    @media (max-width: ${breakpoints.md}) {
+      grid-template-columns: 1fr;
+    }
+  `,
+);
 
 const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
   const { user } = useContext(AppContext);

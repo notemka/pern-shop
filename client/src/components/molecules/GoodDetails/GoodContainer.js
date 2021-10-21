@@ -1,19 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
-import breakpoints from 'styles/breakpoints';
+import styled, { css } from 'styled-components';
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 40%;
-  gap: 20px;
-  padding: 15px;
-  overflow: hidden;
-  background-color: var(--second-color);
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => css`
+    display: grid;
+    grid-template-columns: 1fr 40%;
+    gap: 20px;
+    padding: 15px;
+    overflow: hidden;
+    background-color: var(--second-color);
 
-  @media (max-width: ${breakpoints.screenMd}) {
-    grid-template-columns: 1fr;
-  }
-`;
+    @media (max-width: ${breakpoints.md}) {
+      grid-template-columns: 1fr;
+    }
+  `,
+);
 
 const GoodData = styled.div`
   margin-bottom: 15px;
@@ -37,21 +38,23 @@ const ListItem = styled.li`
   }
 `;
 
-const Photo = styled.figure`
-  display: flex;
-  margin: 20px 0;
+const Photo = styled.figure(
+  ({ theme: { breakpoints } }) => css`
+    display: flex;
+    margin: 20px 0;
 
-  @media (max-width: ${breakpoints.screenMd}) {
-    margin: 0;
-    order: -1;
-  }
+    @media (max-width: ${breakpoints.md}) {
+      margin: 0;
+      order: -1;
+    }
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  `,
+);
 
 const GoodContainer = ({ good }) => {
   const { name, price, rating, info, img } = good;
