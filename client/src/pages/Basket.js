@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
 
-import { Context } from 'App';
+import AppContext from 'contexts/AppContext';
 import GET_ALL_BASKET_GOODS from 'graphql/queries/basket';
 import { GET_GOODS_DATA_FOR_BASKET } from 'graphql/queries/goods';
 
@@ -10,7 +10,7 @@ import Loader from 'components/atoms/Loader';
 import BasketList from 'components/molecules/BasketList';
 
 const Basket = () => {
-  const { user } = useContext(Context);
+  const { user } = useContext(AppContext);
   const { data, loading, error, refetch } = useQuery(GET_ALL_BASKET_GOODS, { variables: { id: user.id } });
   const [goodList, setGoodList] = useState([]);
 

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { NavLink, useHistory } from 'react-router-dom';
-import { LOGIN_ROUTE, publicRoutes, authRoutes } from 'routes';
+import { NavLink } from 'react-router-dom';
+import { publicRoutes, authRoutes } from 'routes';
+import AppContext from 'contexts/AppContext';
 
-import { Context } from 'App';
 import { Button } from 'components/atoms/buttons';
 import breakpoints from 'styles/breakpoints';
 
@@ -31,10 +31,6 @@ const NavItem = styled.li`
     text-decoration: underline;
   }
 
-  button {
-    border: 1px solid var(--white-color);
-  }
-
   @media (max-width: ${breakpoints.screenMd}) {
     margin: 0 0 20px 0;
     font-size: 26px;
@@ -42,47 +38,46 @@ const NavItem = styled.li`
 `;
 
 const ExitButton = styled(Button)`
+  border: 1px solid var(--white-color);
+
   @media (max-width: ${breakpoints.screenMd}) {
     background-color: transparent;
   }
 `;
 
 const NavigationList = () => {
-  const { user, setUser } = useContext(Context);
-  const history = useHistory();
+  const { user, setUser } = useContext(AppContext);
 
   const exit = () => {
-    history.push(LOGIN_ROUTE);
     setUser(null);
     localStorage.removeItem('accessToken');
+  };
+
+  const renderLink = ({ title, path, inNavigation }) => {
+    if (inNavigation) {
+      return (
+        <NavItem key={title}>
+          <NavLink to={path} exact activeClassName="active">
+            {title}
+          </NavLink>
+        </NavItem>
+      );
+    }
+    return null;
   };
 
   return (
     <NavList>
       {user ? (
         <>
-          {authRoutes(user).map(({ title, path }) => (
-            <NavItem key={title}>
-              <NavLink to={path} exact activeClassName="active">
-                {title}
-              </NavLink>
-            </NavItem>
-          ))}
+          {authRoutes(user).map((route) => renderLink(route))}
 
           <NavItem>
             <ExitButton onClick={exit}>Выход</ExitButton>
           </NavItem>
         </>
       ) : (
-        <>
-          {publicRoutes.map(({ title, path }) => (
-            <NavItem key={title}>
-              <NavLink to={path} exact activeClassName="active">
-                {title}
-              </NavLink>
-            </NavItem>
-          ))}
-        </>
+        publicRoutes.map((route) => renderLink(route))
       )}
     </NavList>
   );

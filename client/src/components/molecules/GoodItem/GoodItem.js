@@ -5,7 +5,7 @@ import { GOOD_ROUTE } from 'routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTools, faHeart, faTrash, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
-import { Context } from 'App';
+import AppContext from 'contexts/AppContext';
 import useGoodActions from 'hooks/useGoodActions';
 
 import { RoundButton } from 'components/atoms/buttons';
@@ -13,7 +13,7 @@ import { Wrapper, Photo, Description, Text, Actions } from './styled';
 
 const GoodItem = ({ good }) => {
   const { id, name, price, rating, img } = good;
-  const { user } = useContext(Context);
+  const { user } = useContext(AppContext);
   const { removeGood, addGoodToBasket } = useGoodActions();
 
   return (

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { LOGIN_ROUTE, SHOP_ROUTE } from 'routes';
 
-import { Context } from 'App';
+import AppContext from 'contexts/AppContext';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, REGISTER_USER } from 'graphql/mutations/user';
 
@@ -19,7 +19,7 @@ const FieldActions = styled.div`
 `;
 
 const AuthForm = () => {
-  const { setUser } = useContext(Context);
+  const { setUser } = useContext(AppContext);
   const { pathname } = useLocation();
   const history = useHistory();
   const isLoginPage = pathname === LOGIN_ROUTE;

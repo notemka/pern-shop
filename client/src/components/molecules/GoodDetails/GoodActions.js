@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import breakpoints from 'styles/breakpoints';
 
-import { Context } from 'App';
+import AppContext from 'contexts/AppContext';
 import useGoodActions from 'hooks/useGoodActions';
 import { Button } from 'components/atoms/buttons';
 
@@ -20,7 +20,7 @@ const Actions = styled.div`
 `;
 
 const GoodActions = ({ goodId, isEditMode, setIsEditMode }) => {
-  const { user } = useContext(Context);
+  const { user } = useContext(AppContext);
   const { removeGood, addGoodToBasket } = useGoodActions();
 
   return (

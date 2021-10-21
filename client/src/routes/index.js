@@ -15,61 +15,26 @@ export const BASKET_ROUTE = '/basket';
 export const FAVORITES_ROUTE = '/favorites';
 
 const commonRoutes = [
-  {
-    title: 'Товары',
-    path: SHOP_ROUTE,
-    component: Goods,
-  },
-];
-
-export const detailsRoutes = [
-  {
-    title: 'Товар',
-    path: `${GOOD_ROUTE}/:id`,
-    component: Good,
-  },
-  {
-    title: 'Список',
-    path: `${ADMIN_ROUTE}/:list`,
-    component: AdminPanelList,
-  },
+  { title: 'Товары', path: SHOP_ROUTE, component: Goods, inNavigation: true },
+  { title: 'Товар', path: `${GOOD_ROUTE}/:id`, component: Good },
 ];
 
 export const userRoutes = [
   ...commonRoutes,
-  {
-    title: 'Корзина',
-    path: BASKET_ROUTE,
-    component: Basket,
-  },
-  {
-    title: 'Избранное',
-    path: FAVORITES_ROUTE,
-    component: Favorites,
-  },
+  { title: 'Корзина', path: BASKET_ROUTE, component: Basket, inNavigation: true },
+  { title: 'Избранное', path: FAVORITES_ROUTE, component: Favorites, inNavigation: true },
 ];
 
 export const adminRoutes = [
   ...userRoutes,
-  {
-    title: 'Админка',
-    path: ADMIN_ROUTE,
-    component: Admin,
-  },
+  { title: 'Админка', path: ADMIN_ROUTE, component: Admin, inNavigation: true },
+  { title: 'Список', path: `${ADMIN_ROUTE}/:list`, component: AdminPanelList },
 ];
 
 export const authRoutes = (user) => (user?.role === 'ADMIN' ? adminRoutes : userRoutes);
 
 export const publicRoutes = [
   ...commonRoutes,
-  {
-    title: 'Регистрация',
-    path: REGISTRATION_ROUTE,
-    component: Auth,
-  },
-  {
-    title: 'Вход',
-    path: LOGIN_ROUTE,
-    component: Auth,
-  },
+  { title: 'Регистрация', path: REGISTRATION_ROUTE, component: Auth, inNavigation: true },
+  { title: 'Вход', path: LOGIN_ROUTE, component: Auth, inNavigation: true },
 ];

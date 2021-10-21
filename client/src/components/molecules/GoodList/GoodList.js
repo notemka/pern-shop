@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 
-import { Context } from 'App';
+import AppContext from 'contexts/AppContext';
 import { GET_ALL_GOODS } from 'graphql/queries/goods';
 
 import Loader from 'components/atoms/Loader';
@@ -10,7 +10,7 @@ import GoodItem from 'components/molecules/GoodItem';
 import List from './styled';
 
 const GoodList = ({ filteredGoods }) => {
-  const { goods, setGoods } = useContext(Context);
+  const { goods, setGoods } = useContext(AppContext);
   const { data, loading, error } = useQuery(GET_ALL_GOODS);
 
   useEffect(() => {
