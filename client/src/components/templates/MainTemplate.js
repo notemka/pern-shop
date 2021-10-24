@@ -1,7 +1,11 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+
+import { NotifierContextProvider } from 'contexts/NotifierContext';
 import GlobalStyles from 'styles/globalStyles';
 import theme from 'styles/theme';
+
+import Notifier from 'components/molecules/Notifier';
 import Header from '../organisms/Header';
 
 const Container = styled.main`
@@ -19,10 +23,15 @@ const Container = styled.main`
 
 const MainTemplate = ({ children }) => (
   <ThemeProvider theme={theme}>
-    <GlobalStyles />
+    <NotifierContextProvider>
+      <GlobalStyles />
 
-    <Header />
-    <Container>{children}</Container>
+      <Header />
+      <Container>
+        <Notifier />
+        {children}
+      </Container>
+    </NotifierContextProvider>
   </ThemeProvider>
 );
 

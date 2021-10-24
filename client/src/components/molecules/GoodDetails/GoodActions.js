@@ -14,8 +14,14 @@ const Actions = styled.div(
     align-items: center;
     margin-bottom: 20px;
 
-    @media (max-width: ${breakpoints.md}) {
+    @media (max-width: ${breakpoints.sm}) {
       grid-template-columns: 1fr;
+    }
+
+    button + button {
+      @media (max-width: ${breakpoints.sm}) {
+        margin-left: 0;
+      }
     }
   `,
 );

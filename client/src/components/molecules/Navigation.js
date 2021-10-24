@@ -8,13 +8,15 @@ import NavigationList from './NavigationList';
 
 const Nav = styled.nav(
   ({ theme: { breakpoints } }) => css`
+    display: flex;
+
     @media (max-width: ${breakpoints.md}) {
       position: fixed;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       background: rgba(0, 0, 0, 0.7);

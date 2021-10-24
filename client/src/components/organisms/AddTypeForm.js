@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_TYPE } from 'graphql/mutations/type';
+
+import { NotifierContext } from 'contexts/NotifierContext';
 
 import { Form, Input } from 'components/atoms/formElements';
 import { Button } from 'components/atoms/buttons';
@@ -9,6 +11,7 @@ import Loader from 'components/atoms/Loader';
 const AddTypeForm = () => {
   const [type, setType] = useState('');
   const [createType, { loading }] = useMutation(CREATE_TYPE);
+  const { addNotifier } = useContext(NotifierContext);
 
   const addNewType = async (e) => {
     e.preventDefault();
@@ -17,10 +20,10 @@ const AddTypeForm = () => {
       await createType({ variables: { name: type } });
       if (!loading) {
         setType('');
-        alert(`Новый бренд ${type} добавлен`);
+        addNotifier({ text: `Новый бренд ${type} добавлен` });
       }
     } catch (error) {
-      console.error(error.message);
+      addNotifier({ text: error.message, type: 'error' });
     }
   };
 

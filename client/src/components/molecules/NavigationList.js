@@ -15,7 +15,7 @@ const NavList = styled.ul(
     @media (max-width: ${breakpoints.md}) {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      padding: 0 15px;
     }
   `,
 );
@@ -23,9 +23,13 @@ const NavList = styled.ul(
 const NavItem = styled.li(
   ({ theme: { breakpoints } }) => css`
     margin-left: 30px;
+    padding: 10px 0;
 
     a {
+      display: block;
+      text-align: center;
       text-decoration: none;
+      word-break: break-word;
     }
 
     a.active,
@@ -43,9 +47,11 @@ const NavItem = styled.li(
 const ExitButton = styled(Button)(
   ({ theme: { breakpoints } }) => css`
     border: 1px solid var(--white-color);
+    margin-left: 30px;
 
     @media (max-width: ${breakpoints.md}) {
       background-color: transparent;
+      margin-left: 0;
     }
   `,
 );
@@ -71,20 +77,13 @@ const NavigationList = () => {
     return null;
   };
 
-  return (
-    <NavList>
-      {user ? (
-        <>
-          {authRoutes(user).map((route) => renderLink(route))}
-
-          <NavItem>
-            <ExitButton onClick={exit}>Выход</ExitButton>
-          </NavItem>
-        </>
-      ) : (
-        publicRoutes.map((route) => renderLink(route))
-      )}
-    </NavList>
+  return user ? (
+    <>
+      <NavList>{authRoutes(user).map((route) => renderLink(route))}</NavList>
+      <ExitButton onClick={exit}>Выход</ExitButton>
+    </>
+  ) : (
+    <NavList>{publicRoutes.map((route) => renderLink(route))}</NavList>
   );
 };
 

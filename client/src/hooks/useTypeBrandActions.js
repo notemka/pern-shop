@@ -1,6 +1,8 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useContext } from '@apollo/client';
 import { DELETE_BRAND, UPDATE_BRAND } from 'graphql/mutations/brand';
 import { DELETE_TYPE, UPDATE_TYPE } from 'graphql/mutations/type';
+
+import { NotifierContext } from 'contexts/NotifierContext';
 
 const useTypeBrandActions = (listName) => {
   const isType = listName === 'Категория';
@@ -8,16 +10,17 @@ const useTypeBrandActions = (listName) => {
   const updateMutation = isType ? UPDATE_TYPE : UPDATE_BRAND;
   const [deleteItem, { loading: deleteLoading }] = useMutation(deleteMutation);
   const [updateItem, { loading: updateLoading }] = useMutation(updateMutation);
+  const { addNotifier } = useContext(NotifierContext);
 
   const removeItem = async (id) => {
     try {
       await deleteItem({ variables: { id } });
       if (!deleteLoading) {
         const msg = isType ? `${listName} успешно удалена!` : `${listName} успешно удален!`;
-        alert(msg);
+        addNotifier({ text: msg });
       }
     } catch (error) {
-      console.log(error.message);
+      addNotifier({ text: error.message, type: 'error' });
     }
   };
 
@@ -26,10 +29,10 @@ const useTypeBrandActions = (listName) => {
       await updateItem({ variables: data });
       if (!updateLoading) {
         const msg = isType ? `${listName} успешно изменена!` : `${listName} успешно изменен!`;
-        alert(msg);
+        addNotifier({ text: msg });
       }
     } catch (error) {
-      console.log(error.message);
+      addNotifier({ text: error.message, type: 'error' });
     }
   };
 

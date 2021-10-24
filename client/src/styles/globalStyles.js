@@ -14,8 +14,9 @@ const GlobalStyle = createGlobalStyle`
     --font-color: #304455;
     --font-size: 16px;
     --font-size--small: 14px;
-    --alert-success: #b2c032;
-    --alert-error: #ff9b9b;
+    --success: #b2c032;
+    --error: #ff9b9b;
+    --notifier: #b2c032;
   }
 
   html,
