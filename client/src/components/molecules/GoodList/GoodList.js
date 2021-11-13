@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 
-import AppContext from 'contexts/AppContext';
 import { GET_ALL_GOODS } from 'graphql/queries/goods';
 
 import Loader from 'components/atoms/Loader';
@@ -9,17 +8,14 @@ import InfoText from 'components/atoms/InfoText';
 import GoodItem from 'components/molecules/GoodItem';
 import List from './styled';
 
-const GoodList = ({ filteredGoods }) => {
-  const { goods, setGoods } = useContext(AppContext);
+const GoodList = ({ goods, setGoods, searchQuery }) => {
   const { data, loading, error } = useQuery(GET_ALL_GOODS);
 
   useEffect(() => {
-    if (filteredGoods?.length) {
-      setGoods(filteredGoods);
-    } else if (!loading) {
+    if (!loading) {
       setGoods(data.getAllGoods);
     }
-  }, [filteredGoods, data]);
+  }, [data]);
 
   if (loading) {
     return <Loader />;
@@ -29,7 +25,7 @@ const GoodList = ({ filteredGoods }) => {
     return <InfoText>Что-то пошло не так...</InfoText>;
   }
 
-  if (filteredGoods?.length === 0) {
+  if (goods?.length === 0 && searchQuery.length > 0) {
     return <InfoText>По вашему запросу ничего не найдено</InfoText>;
   }
 

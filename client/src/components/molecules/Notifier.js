@@ -7,7 +7,7 @@ const NotifierList = styled.ul`
   position: fixed;
   top: 80px;
   right: 20px;
-  z-index: 1000;
+  z-index: 10;
 `;
 
 const Notifier = () => {

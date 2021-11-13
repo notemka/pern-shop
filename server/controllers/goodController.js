@@ -14,10 +14,16 @@ class GoodController {
     return imgName;
   }
 
+  deleteImage(fileName) {
+    fs.unlink(path.join(__dirname, `../static/${fileName}`), (err) => {
+      if (err) console.error(err);
+    });
+  }
+
   async create(data) {
     try {
       const { name, price, brandId, typeId, info, img } = data;
-      const imgName = await this.saveImage(img);
+      const imgName = img && (await this.saveImage(img));
 
       const good = await Good.create({
         name,
@@ -84,18 +90,17 @@ class GoodController {
 
   async delete(id) {
     try {
-      const good = await Good.findOne({ where: { id } });
+      const good = await this.getOne(id);
       const { img: goodImage } = good || {};
+
       if (goodImage) {
-        fs.unlink(path.join(__dirname, `../static/${goodImage}`), (err) => {
-          if (err) console.error(err);
-        });
+        this.deleteImage(goodImage);
       }
 
       await GoodInfo.destroy({ where: { goodId: id } });
       await Good.destroy({ where: { id } });
 
-      return 'Success';
+      return good;
     } catch (error) {
       throw new Error(error);
     }
@@ -104,10 +109,15 @@ class GoodController {
   async update(data) {
     const { id, info, img } = data;
     let updatedData = { ...data };
-    const isImageChanged = typeof img !== 'string';
+    const isImageChanged = img && typeof img !== 'string';
 
     if (isImageChanged) {
+      const { img: prevImageName } = await this.getOne(id);
       updatedData.img = await this.saveImage(img);
+
+      if (prevImageName) {
+        this.deleteImage(prevImageName);
+      }
     }
 
     try {

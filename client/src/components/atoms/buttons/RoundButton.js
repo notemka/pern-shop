@@ -8,13 +8,14 @@ const StyledButton = styled(Button)`
   border-radius: 50%;
   padding: 7px;
   box-shadow: 0 0 5px var(--white-color);
+  ${(theme, customStyles) => customStyles && customStyles(theme)};
 `;
 
 const RoundButton = (props) => {
-  const { children, disabled, className, onClick, type = 'button', title, ...restProps } = props;
+  const { children, type = 'button', customStyles, ...restProps } = props;
 
   return (
-    <StyledButton type={type} className={className} title={title} onClick={onClick} disabled={disabled} {...restProps}>
+    <StyledButton type={type} {...restProps} customStyles={customStyles}>
       {children}
     </StyledButton>
   );

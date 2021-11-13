@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const StyledButton = styled.button`
+export const buttonStyles = () => css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -27,17 +27,25 @@ const StyledButton = styled.button`
   &:disabled {
     background-color: rgba(0, 0, 0, 0.2);
   }
-
-  & + button {
-    margin-left: 10px;
-  }
 `;
 
+const StyledButton = styled.button(
+  ({ theme, customStyles }) => css`
+    ${buttonStyles(theme)}
+
+    & + button {
+      margin-left: 10px;
+    }
+
+    ${customStyles && customStyles(theme)}
+  `,
+);
+
 const Button = (props) => {
-  const { children, disabled, className, onClick, type = 'button', title, ...restProps } = props;
+  const { children, type = 'button', customStyles, ...restProps } = props;
 
   return (
-    <StyledButton type={type} className={className} title={title} onClick={onClick} disabled={disabled} {...restProps}>
+    <StyledButton type={type} customStyles={customStyles} {...restProps}>
       {children}
     </StyledButton>
   );

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import styled, { css } from 'styled-components';
 
@@ -37,12 +37,10 @@ const StyledIcon = styled(FontAwesomeIcon)`
   transform: translateY(-50%);
 `;
 
-const SearchField = ({ setFilteredGoods }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-
+const SearchField = ({ searchQuery, setSearchQuery, setGoods }) => {
   const onCompleted = (data) => {
     if (data?.querySearch) {
-      setFilteredGoods(data.querySearch);
+      setGoods(data.querySearch);
     }
   };
 
@@ -51,26 +49,25 @@ const SearchField = ({ setFilteredGoods }) => {
     debounce((query) => searchByQuery({ variables: { query } }), 250),
     [],
   );
+
   useEffect(() => {
     getGoodsBySearchQuery(searchQuery);
   }, [searchQuery]);
 
   const onChange = (event) => {
-    setSearchQuery(event.target.value);
+    setSearchQuery(event.target.value.trim());
   };
 
   return (
-    <>
-      <Input
-        type="search"
-        name="search"
-        value={searchQuery}
-        onChange={onChange}
-        placeholder="Введите, например: торцовочная пила"
-        icon={<StyledIcon icon={faSearch} />}
-        customStyles={fieldWrapperCustomStyles}
-      />
-    </>
+    <Input
+      type="search"
+      name="search"
+      value={searchQuery}
+      onChange={onChange}
+      placeholder="Введите, например: торцовочная пила"
+      icon={<StyledIcon icon={faSearch} />}
+      customStyles={fieldWrapperCustomStyles}
+    />
   );
 };
 

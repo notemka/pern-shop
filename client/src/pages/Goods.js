@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import MainTemplate from 'components/templates/MainTemplate';
 import GoodList from 'components/molecules/GoodList/GoodList';
 import SearchField from 'components/molecules/SearchField';
+import AppContext from 'contexts/AppContext';
 
 const Goods = () => {
-  const [filteredGoods, setFilteredGoods] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { goods, setGoods } = useContext(AppContext);
 
   return (
     <MainTemplate>
       <div>
         <h1>Список всех товаров</h1>
-        <SearchField setFilteredGoods={setFilteredGoods} />
+        <SearchField setGoods={setGoods} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-        <GoodList filteredGoods={filteredGoods} />
+        <GoodList goods={goods} setGoods={setGoods} searchQuery={searchQuery} />
       </div>
     </MainTemplate>
   );

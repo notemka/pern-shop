@@ -23,7 +23,7 @@ const Nav = styled.nav(
       visibility: hidden;
       opacity: 0;
       transition: visibility, opacity 0.4s;
-      z-index: 100;
+      z-index: 10;
 
       &.active {
         opacity: 1;

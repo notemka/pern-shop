@@ -78,6 +78,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: calc(18px + (20 - 18) * ((100vw - 320px) / (1600 - 320)));
   }
 
+
   select,
   textarea,
   input {

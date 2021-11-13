@@ -1,6 +1,32 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import { buttonStyles } from '../buttons/Button';
 import FieldWrapper from './FieldWrapper';
 import Label from './Label';
+
+const StyledInput = styled.input`
+  &[type='file'] {
+    padding: 0;
+    border: 0;
+
+    &:focus {
+      box-shadow: none;
+
+      &::file-selector-button {
+        background-color: var(--border-button-focus);
+      }
+    }
+
+    &::file-selector-button {
+      ${buttonStyles()};
+      overflow: hidden;
+    }
+
+    &::placeholder {
+      opacity: 0;
+    }
+  }
+`;
 
 const Input = (props) => {
   const {
@@ -13,7 +39,7 @@ const Input = (props) => {
     maxLength,
     errorMessage,
     autoFocus,
-    icon,
+    additionalElement,
     customRef,
     customStyles,
     ...restProps
@@ -30,7 +56,7 @@ const Input = (props) => {
   return (
     <FieldWrapper className={className} customStyles={customStyles}>
       {label && <Label htmlFor={inputId}>{label}</Label>}
-      <input
+      <StyledInput
         ref={customRef}
         id={inputId}
         type={inputType}
@@ -39,7 +65,7 @@ const Input = (props) => {
         maxLength={maxLength}
         {...restProps}
       />
-      {icon && icon}
+      {additionalElement && additionalElement}
 
       {maxLength && value && value.length === +maxLength ? (
         <span>Must be {maxLength} characters or less</span>

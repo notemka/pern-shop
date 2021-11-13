@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
@@ -8,17 +8,28 @@ import { NotifierContext } from 'contexts/NotifierContext';
 import { CREATE_GOOD, UPDATE_GOOD, DELETE_GOOD } from 'graphql/mutations/good';
 import { ADD_TO_BASKET, DELETE_FROM_BASKET } from 'graphql/mutations/basket';
 import { GET_ALL_GOODS } from 'graphql/queries/goods';
+import AppContext from 'contexts/AppContext';
 
 const useGoodActions = () => {
   const mutationOptions = { refetchQueries: [{ query: GET_ALL_GOODS }] };
   const [updateMutation, { loading: updateLoading }] = useMutation(UPDATE_GOOD);
-  const [createMutation, { loading: createLoading }] = useMutation(CREATE_GOOD, mutationOptions);
-  const [deleteMutation, { loading: deleteLoading }] = useMutation(DELETE_GOOD, mutationOptions);
+  const [createMutation, { data: createdData, loading: createLoading }] = useMutation(CREATE_GOOD, mutationOptions);
+  const [deleteMutation, { data: deletedData, loading: deleteLoading }] = useMutation(DELETE_GOOD, mutationOptions);
 
   const [addToBasket, { loading: basketLoading }] = useMutation(ADD_TO_BASKET);
   const [deleteFromBasketMutation, { loading: deleteFromBasketLoading }] = useMutation(DELETE_FROM_BASKET);
   const { push } = useHistory();
   const { addNotifier } = useContext(NotifierContext);
+  const { setGoods } = useContext(AppContext);
+
+  useEffect(() => {
+    if (createdData) {
+      setGoods((prevList) => [...prevList, createdData.createGood]);
+    }
+    if (deletedData) {
+      setGoods((prevList) => prevList.filter((item) => item.id !== deletedData.deleteGood));
+    }
+  }, [createdData, deletedData]);
 
   const createGood = async (data) => {
     try {

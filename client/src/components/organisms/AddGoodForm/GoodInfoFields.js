@@ -20,6 +20,7 @@ const Fieldset = styled.fieldset`
   margin-bottom: 20px;
   padding: 15px;
   border-color: var(--border-color);
+  border-style: solid;
 `;
 
 const DeleteButton = styled(RoundButton)`

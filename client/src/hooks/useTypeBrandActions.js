@@ -1,11 +1,13 @@
-import { useMutation, useContext } from '@apollo/client';
+import { useContext } from 'react';
+import { useMutation } from '@apollo/client';
 import { DELETE_BRAND, UPDATE_BRAND } from 'graphql/mutations/brand';
 import { DELETE_TYPE, UPDATE_TYPE } from 'graphql/mutations/type';
 
 import { NotifierContext } from 'contexts/NotifierContext';
+import { CATEGORY } from 'constants/goodFilters';
 
 const useTypeBrandActions = (listName) => {
-  const isType = listName === 'Категория';
+  const isType = listName === CATEGORY;
   const deleteMutation = isType ? DELETE_TYPE : DELETE_BRAND;
   const updateMutation = isType ? UPDATE_TYPE : UPDATE_BRAND;
   const [deleteItem, { loading: deleteLoading }] = useMutation(deleteMutation);
