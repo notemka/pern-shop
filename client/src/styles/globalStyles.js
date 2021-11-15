@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
     --shadow-color: rgba(0, 0, 0, 0.2);
     --border-color: #e3e3e3;
     --border-color-focus: #42b983;
+    --grey-8e: #8e8e8e;
     --border-button-focus: #095432;
     --image-color: #35495e;
     --font-color: #304455;

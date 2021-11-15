@@ -1,10 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Input } from 'components/atoms/formElements';
-import RoundButton from 'components/atoms/buttons/RoundButton';
+import { ButtonAsLink } from 'components/atoms/buttons';
 
 const Wrapper = styled.div`
   position: relative;
@@ -29,9 +27,7 @@ const Photo = styled.figure(
 );
 
 const buttonStyles = () => css`
-  /* position: absolute;
-  top: -17.5px;
-  right: 5px; */
+  margin: 10px 0;
 `;
 
 const FileField = ({ isEditMode, file, initialImage, changeFieldValue, customRef }) => {
@@ -40,6 +36,13 @@ const FileField = ({ isEditMode, file, initialImage, changeFieldValue, customRef
   };
   const isImageChanged = typeof file === 'object';
   const isImageNotChanged = typeof file === 'string' || typeof file === 'undefined';
+
+  const resetField = () => {
+    customRef.current.value = null;
+    if (initialImage) {
+      changeFieldValue({ img: initialImage });
+    }
+  };
 
   return (
     <Wrapper>
@@ -53,9 +56,9 @@ const FileField = ({ isEditMode, file, initialImage, changeFieldValue, customRef
         additionalElement={
           isEditMode &&
           isImageChanged && (
-            <RoundButton customStyles={buttonStyles}>
-              <FontAwesomeIcon icon={faTrash} />
-            </RoundButton>
+            <ButtonAsLink customStyles={buttonStyles} onClick={resetField}>
+              Удалить выбранный файл
+            </ButtonAsLink>
           )
         }
       />
